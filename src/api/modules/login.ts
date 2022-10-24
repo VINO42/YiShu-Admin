@@ -15,6 +15,10 @@ export const loginApi = (params: Login.ReqLoginForm) => {
 	return http.post<Login.ResLogin>(PORT1 + `/login`, params, { headers: { noLoading: true } }); // 控制当前请求不显示 loading
 };
 
+// * 编辑用户
+export const loginOutApi = () => {
+	return http.post(PORT1 + `/logOut`, { headers: { noLoading: true } });
+};
 // * 获取按钮权限
 export const getAuthButtonListApi = () => {
 	return http.get<Login.ResAuthButtons>(PORT1 + `/buttons`, {}, { headers: { noLoading: true } });

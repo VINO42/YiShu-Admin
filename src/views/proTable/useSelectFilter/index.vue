@@ -70,8 +70,8 @@ const columns: Partial<ColumnProps>[] = [
 	{ prop: "username", label: "用户姓名", width: 120 },
 	{ prop: "gender", label: "性别", width: 120, sortable: true, enum: genderType },
 	{ prop: "idCard", label: "身份证号" },
-	{ prop: "email", label: "邮箱" },
-	{ prop: "address", label: "居住地址" },
+	{ prop: "mobile", label: "手机号" },
+	{ prop: "addr", label: "居住地址" },
 	{ prop: "status", label: "用户状态", width: 120, sortable: true, tag: true, enum: userStatus },
 	{ prop: "createTime", label: "创建时间", width: 180, sortable: true },
 	{ prop: "operation", label: "操作", width: 330, fixed: "right" }

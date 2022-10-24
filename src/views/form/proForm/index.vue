@@ -65,12 +65,12 @@ const options = ref({
 		},
 		{
 			formItem: {
-				label: "邮箱",
-				prop: "email"
+				label: "手机号",
+				prop: "mobile"
 			},
 			attrs: {
 				typeName: "input",
-				placeholder: "请输入邮箱",
+				placeholder: "请输入手机号",
 				clearable: true,
 				style: "width:500px"
 			}

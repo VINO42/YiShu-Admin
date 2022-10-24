@@ -128,8 +128,8 @@ const columns: Partial<ColumnProps>[] = [
 		searchProps: { label: "genderLabel", value: "genderValue" }
 	},
 	{ prop: "idCard", label: "身份证号", search: true },
-	{ prop: "email", label: "邮箱", search: true },
-	{ prop: "address", label: "居住地址", search: true },
+	{ prop: "mobile", label: "手机号", search: true },
+	{ prop: "addr", label: "居住地址", search: true },
 	{
 		prop: "displayStatus",
 		label: "用户状态",
@@ -142,6 +142,18 @@ const columns: Partial<ColumnProps>[] = [
 	{
 		prop: "createTime",
 		label: "创建时间",
+		width: 200,
+		sortable: true
+		// search: true,
+		// searchType: "datetimerange",
+		// searchProps: {
+		// 	disabledDate: (time: Date) => time.getTime() < Date.now() - 8.64e7
+		// },
+		// searchInitParam: ["2022-09-30 00:00:00", "2022-09-20 23:59:59"]
+	},
+	{
+		prop: "updateTime",
+		label: "更新时间",
 		width: 200,
 		sortable: true
 		// search: true,

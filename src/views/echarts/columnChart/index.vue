@@ -54,7 +54,7 @@ onMounted(() => {
 				data: [320, 332, 301, 334, 390, 330, 320]
 			},
 			{
-				name: "Email",
+				name: "Mobile",
 				type: "bar",
 				stack: "Ad",
 				emphasis: {

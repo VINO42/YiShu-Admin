@@ -27,7 +27,7 @@ onMounted(() => {
 			}
 		},
 		legend: {
-			data: ["Email", "Union Ads", "Video Ads", "Direct", "Search Engine"],
+			data: ["Mobile", "Union Ads", "Video Ads", "Direct", "Search Engine"],
 			textStyle: {
 				color: "#a1a1a1"
 			}
@@ -63,7 +63,7 @@ onMounted(() => {
 		],
 		series: [
 			{
-				name: "Email",
+				name: "Mobile",
 				type: "line",
 				stack: "Total",
 				areaStyle: {},

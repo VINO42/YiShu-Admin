@@ -15,7 +15,7 @@ onMounted(() => {
 			formatter: "{a} <br/>{b}: {c} ({d}%)"
 		},
 		legend: {
-			data: ["Direct", "Marketing", "Search Engine", "Email", "Union Ads", "Video Ads", "Baidu", "Google", "Bing", "Others"],
+			data: ["Direct", "Marketing", "Search Engine", "Mobile", "Union Ads", "Video Ads", "Baidu", "Google", "Bing", "Others"],
 			textStyle: {
 				color: "#a1a1a1"
 			}
@@ -81,7 +81,7 @@ onMounted(() => {
 				data: [
 					{ value: 1048, name: "Baidu" },
 					{ value: 335, name: "Direct" },
-					{ value: 310, name: "Email" },
+					{ value: 310, name: "Mobile" },
 					{ value: 251, name: "Google" },
 					{ value: 234, name: "Union Ads" },
 					{ value: 147, name: "Bing" },

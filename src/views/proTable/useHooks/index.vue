@@ -13,8 +13,8 @@
 				<el-form-item label="身份证号 :">
 					<el-input v-model="searchParam.idCard" placeholder="请输入" clearable></el-input>
 				</el-form-item>
-				<el-form-item label="邮箱 :">
-					<el-input v-model="searchParam.email" placeholder="请输入" clearable></el-input>
+				<el-form-item label="手机号 :">
+					<el-input v-model="searchParam.mobile" placeholder="请输入" clearable></el-input>
 				</el-form-item>
 				<div style="display: inline" v-show="searchShow">
 					<el-form-item label="创建时间 :">
@@ -61,8 +61,8 @@
 					{{ scope.row.gender == 1 ? "男" : "女" }}
 				</el-table-column>
 				<el-table-column prop="idCard" label="身份证号" show-overflow-tooltip align="center"></el-table-column>
-				<el-table-column prop="email" label="邮箱" show-overflow-tooltip align="center"></el-table-column>
-				<el-table-column prop="address" label="居住地址" show-overflow-tooltip align="center"></el-table-column>
+				<el-table-column prop="mobile" label="手机号" show-overflow-tooltip align="center"></el-table-column>
+				<el-table-column prop="addr" label="居住地址" show-overflow-tooltip align="center"></el-table-column>
 				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip align="center"></el-table-column>
 				<el-table-column prop="status" label="用户状态" width="180" align="center" v-slot="scope">
 					<el-switch

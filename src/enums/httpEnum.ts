@@ -26,7 +26,7 @@ export enum RequestEnum {
  */
 export enum ContentTypeEnum {
 	// json
-	JSON = "application/json;charset=UTF-8",
+	JSON = "application/json",
 	// text
 	TEXT = "text/plain;charset=UTF-8",
 	// form-data 一般配合qs

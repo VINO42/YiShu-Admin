@@ -76,8 +76,8 @@ const columns: Partial<ColumnProps>[] = [
 		searchProps: { label: "genderLabel", value: "genderValue" }
 	},
 	{ prop: "idCard", label: "身份证号" },
-	{ prop: "email", label: "邮箱" },
-	{ prop: "address", label: "居住地址" },
+	{ prop: "mobile", label: "手机号" },
+	{ prop: "addr", label: "居住地址" },
 	{
 		prop: "status",
 		label: "用户状态",

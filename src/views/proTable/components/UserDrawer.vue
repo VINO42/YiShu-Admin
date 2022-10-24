@@ -20,8 +20,8 @@
 					<template #tip> 头像大小不能超过 3M </template>
 				</UploadImg>
 			</el-form-item>
-			<el-form-item label="用户姓名" prop="username">
-				<el-input v-model="drawerData.rowData!.username" placeholder="请填写用户姓名" clearable></el-input>
+			<el-form-item label="用户姓名" prop="realName">
+				<el-input v-model="drawerData.rowData!.realName" placeholder="请填写用户姓名" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="性别" prop="gender">
 				<el-select v-model="drawerData.rowData!.gender" placeholder="请选择性别" clearable>
@@ -31,11 +31,11 @@
 			<el-form-item label="身份证号" prop="idCard">
 				<el-input v-model="drawerData.rowData!.idCard" placeholder="请填写身份证号" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="邮箱" prop="email">
-				<el-input v-model="drawerData.rowData!.email" placeholder="请填写邮箱" clearable></el-input>
+			<el-form-item label="手机号" prop="mobile">
+				<el-input v-model="drawerData.rowData!.mobile" placeholder="请填写手机号" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="居住地址" prop="address">
-				<el-input v-model="drawerData.rowData!.address" placeholder="请填写居住地址" clearable></el-input>
+			<el-form-item label="居住地址" prop="addr">
+				<el-input v-model="drawerData.rowData!.addr" placeholder="请填写居住地址" clearable></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -53,12 +53,12 @@ import { ElMessage, FormInstance } from "element-plus";
 import UploadImg from "@/components/UploadImg/index.vue";
 
 const rules = reactive({
-	avatar: [{ required: true, message: "请上传用户头像", trigger: "change" }],
+	avatar: [{ required: false, message: "请上传用户头像", trigger: "change" }],
 	username: [{ required: true, message: "请填写用户姓名", trigger: "change" }],
 	gender: [{ required: true, message: "请选择性别", trigger: "change" }],
 	idCard: [{ required: true, message: "请填写身份证号", trigger: "change" }],
-	email: [{ required: true, message: "请填写邮箱", trigger: "change" }],
-	address: [{ required: true, message: "请填写居住地址", trigger: "change" }]
+	mobile: [{ required: true, message: "请填写手机号", trigger: "change" }],
+	addr: [{ required: true, message: "请填写居住地址", trigger: "change" }]
 });
 
 interface DrawerProps {

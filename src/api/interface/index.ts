@@ -45,10 +45,10 @@ export namespace User {
 		realName: string;
 		gender: number;
 		idCard: string;
-		email: string;
+		mobile: string;
 		addr: string;
 		// createTime: string[];
-		status: string;
+		// status: string;
 		displayStatus: number;
 	}
 	export interface ResUserList {
@@ -57,10 +57,10 @@ export namespace User {
 		gender: string;
 		age: number;
 		idCard: string;
-		email: string;
+		mobile: string;
 		addr: string;
 		// createTime: string;
-		status: string;
+		// status: string;
 		displayStatus: number;
 		avatar: string;
 		children?: ResUserList[];
