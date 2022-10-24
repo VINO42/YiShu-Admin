@@ -114,11 +114,11 @@ const columns: Partial<ColumnProps>[] = [
 	{ type: "selection", width: 80, fixed: "left" },
 	{ type: "index", label: "#", width: 80 },
 	{ type: "expand", label: "Expand", width: 100 },
-	{ prop: "username", label: "用户姓名", width: 130, search: true, renderHeader },
+	{ prop: "realName", label: "用户姓名", width: 130, search: true, renderHeader },
 	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面用户状态也同理
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
 	{
-		prop: "gender",
+		prop: "sex",
 		label: "性别",
 		width: 120,
 		sortable: true,
@@ -143,20 +143,20 @@ const columns: Partial<ColumnProps>[] = [
 		prop: "createTime",
 		label: "创建时间",
 		width: 200,
-		sortable: true,
-		search: true,
-		searchType: "datetimerange",
-		searchProps: {
-			disabledDate: (time: Date) => time.getTime() < Date.now() - 8.64e7
-		},
-		searchInitParam: ["2022-09-30 00:00:00", "2022-09-20 23:59:59"]
+		sortable: true
+		// search: true,
+		// searchType: "datetimerange",
+		// searchProps: {
+		// 	disabledDate: (time: Date) => time.getTime() < Date.now() - 8.64e7
+		// },
+		// searchInitParam: ["2022-09-30 00:00:00", "2022-09-20 23:59:59"]
 	},
 	{ prop: "operation", label: "操作", width: 330, fixed: "right", renderHeader }
 ];
 
 // 删除用户信息
 const deleteAccount = async (params: User.ResUserList) => {
-	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.username}】用户`);
+	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
 	proTable.value.getTableList();
 };
 
@@ -169,13 +169,13 @@ const batchDelete = async (id: string[]) => {
 
 // 重置用户密码
 const resetPass = async (params: User.ResUserList) => {
-	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.username}】用户密码`);
+	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.realName}】用户密码`);
 	proTable.value.getTableList();
 };
 
 // 切换用户状态
 const changeStatus = async (row: User.ResUserList) => {
-	await useHandleData(changeUserStatus, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.username}】用户状态`);
+	await useHandleData(changeUserStatus, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.realName}】用户状态`);
 	proTable.value.getTableList();
 };
 

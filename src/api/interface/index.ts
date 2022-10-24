@@ -1,7 +1,7 @@
 // * 请求响应参数(不包含data)
 export interface Result {
-	code: string;
-	msg: string;
+	status: string;
+	message: string;
 }
 
 // * 请求响应参数(包含data)
@@ -11,16 +11,16 @@ export interface ResultData<T = any> extends Result {
 
 // * 分页响应参数
 export interface ResPage<T> {
-	datalist: T[];
-	pageNum: number;
-	pageSize: number;
+	records: T[];
+	current: number;
+	size: number;
 	total: number;
 }
 
 // * 分页请求参数
 export interface ReqPage {
-	pageNum: number;
-	pageSize: number;
+	current: number;
+	size: number;
 }
 
 // * 登录模块
@@ -30,7 +30,7 @@ export namespace Login {
 		password: string;
 	}
 	export interface ResLogin {
-		access_token: string;
+		token: string;
 	}
 	export interface ResAuthButtons {
 		[key: string]: {
@@ -42,24 +42,24 @@ export namespace Login {
 // * 用户管理模块
 export namespace User {
 	export interface ReqGetUserParams extends ReqPage {
-		username: string;
-		gender: number;
+		realName: string;
+		sex: number;
 		idCard: string;
 		email: string;
-		address: string;
-		createTime: string[];
-		status: number;
+		addr: string;
+		// createTime: string[];
+		status: string;
 	}
 	export interface ResUserList {
 		id: string;
-		username: string;
-		gender: string;
+		realName: string;
+		sex: string;
 		age: number;
 		idCard: string;
 		email: string;
-		address: string;
-		createTime: string;
-		status: number;
+		addr: string;
+		// createTime: string;
+		status: string;
 		avatar: string;
 		children?: ResUserList[];
 	}

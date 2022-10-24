@@ -8,7 +8,7 @@ import http from "@/api";
  */
 // * 获取用户列表
 export const getUserList = (params: User.ReqGetUserParams) => {
-	return http.post<ResPage<User.ResUserList>>(PORT1 + `/user/list`, params);
+	return http.get<ResPage<User.ResUserList>>(PORT1 + `/sysUser/page`, params);
 };
 
 // * 新增用户
@@ -48,12 +48,12 @@ export const exportUserInfo = (params: User.ReqGetUserParams) => {
 
 // * 获取用户状态
 export const getUserStatus = () => {
-	return http.get<User.ResStatus>(PORT1 + `/user/status`);
+	return http.get<User.ResStatus>(PORT1 + `/status`);
 };
 
 // * 获取用户性别字典
 export const getUserGender = () => {
-	return http.get<User.ResGender>(PORT1 + `/user/gender`);
+	return http.get<User.ResGender>(PORT1 + `/gender`);
 };
 
 // * 获取用户部门列表

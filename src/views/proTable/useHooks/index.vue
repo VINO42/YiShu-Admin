@@ -94,8 +94,8 @@
 				</template>
 			</el-table>
 			<el-pagination
-				:currentPage="pageable.pageNum"
-				:page-size="pageable.pageSize"
+				:currentPage="pageable.current"
+				:page-size="pageable.size"
 				:page-sizes="[10, 25, 50, 100]"
 				background
 				layout="total, sizes, prev, pager, next, jumper"

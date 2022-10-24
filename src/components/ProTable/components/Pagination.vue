@@ -1,8 +1,8 @@
 <template>
 	<!-- 分页组件 -->
 	<el-pagination
-		:current-page="pageable.pageNum"
-		:page-size="pageable.pageSize"
+		:current-page="pageable.current"
+		:page-size="pageable.size"
 		:page-sizes="[10, 25, 50, 100]"
 		:background="true"
 		layout="total, sizes, prev, pager, next, jumper"
@@ -14,15 +14,15 @@
 
 <script setup lang="ts" name="pagination">
 interface Pageable {
-	pageNum: number;
-	pageSize: number;
+	current: number;
+	size: number;
 	total: number;
 }
 
 interface PaginationProps {
 	pageable: Pageable;
 	handleSizeChange: (size: number) => void;
-	handleCurrentChange: (currentPage: number) => void;
+	handleCurrentChange: (current: number) => void;
 }
 
 defineProps<PaginationProps>();

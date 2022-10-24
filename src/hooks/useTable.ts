@@ -20,9 +20,9 @@ export const useTable = (
 		// 分页数据
 		pageable: {
 			// 当前页数
-			pageNum: 1,
+			current: 1,
 			// 每页显示条数
-			pageSize: 10,
+			size: 10,
 			// 总条数
 			total: 0
 		},
@@ -40,8 +40,8 @@ export const useTable = (
 	const pageParam = computed({
 		get: () => {
 			return {
-				pageNum: state.pageable.pageNum,
-				pageSize: state.pageable.pageSize
+				current: state.pageable.current,
+				size: state.pageable.size
 			};
 		},
 		set: (newVal: any) => {
@@ -64,10 +64,10 @@ export const useTable = (
 			Object.assign(state.totalParam, initParam, isPageable ? pageParam.value : {});
 			let { data } = await api(state.totalParam);
 			dataCallBack && (data = dataCallBack(data));
-			state.tableData = isPageable ? data.datalist : data;
+			state.tableData = isPageable ? data.records : data;
 			// 解构后台返回的分页数据 (如果有分页更新分页信息)
-			const { pageNum, pageSize, total } = data;
-			isPageable && updatePageable({ pageNum, pageSize, total });
+			const { current, size, total } = data;
+			isPageable && updatePageable({ current, size, total });
 		} catch (error) {
 			console.log(error);
 		}
@@ -105,7 +105,7 @@ export const useTable = (
 	 * @return void
 	 * */
 	const search = () => {
-		state.pageable.pageNum = 1;
+		state.pageable.current = 1;
 		updatedTotalParam();
 		getTableList();
 	};
@@ -115,7 +115,7 @@ export const useTable = (
 	 * @return void
 	 * */
 	const reset = () => {
-		state.pageable.pageNum = 1;
+		state.pageable.current = 1;
 		state.searchParam = {};
 		// 重置搜索表单的时，如果有默认搜索参数，则重置默认的搜索参数
 		Object.keys(state.searchInitParam).forEach(key => {
@@ -131,8 +131,8 @@ export const useTable = (
 	 * @return void
 	 * */
 	const handleSizeChange = (val: number) => {
-		state.pageable.pageNum = 1;
-		state.pageable.pageSize = val;
+		state.pageable.current = 1;
+		state.pageable.size = val;
 		getTableList();
 	};
 
@@ -142,7 +142,7 @@ export const useTable = (
 	 * @return void
 	 * */
 	const handleCurrentChange = (val: number) => {
-		state.pageable.pageNum = val;
+		state.pageable.current = val;
 		getTableList();
 	};
 
