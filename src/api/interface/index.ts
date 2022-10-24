@@ -1,6 +1,6 @@
 // * 请求响应参数(不包含data)
 export interface Result {
-	status: string;
+	status: number;
 	message: string;
 }
 
@@ -43,23 +43,25 @@ export namespace Login {
 export namespace User {
 	export interface ReqGetUserParams extends ReqPage {
 		realName: string;
-		sex: number;
+		gender: number;
 		idCard: string;
 		email: string;
 		addr: string;
 		// createTime: string[];
 		status: string;
+		displayStatus: number;
 	}
 	export interface ResUserList {
 		id: string;
 		realName: string;
-		sex: string;
+		gender: string;
 		age: number;
 		idCard: string;
 		email: string;
 		addr: string;
 		// createTime: string;
 		status: string;
+		displayStatus: number;
 		avatar: string;
 		children?: ResUserList[];
 	}

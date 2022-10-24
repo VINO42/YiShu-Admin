@@ -25,15 +25,15 @@
 			<template #status="scope">
 				<!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所以使用 click 方法（暂时只能这样解决） -->
 				<el-switch
-					:model-value="scope.row.status"
-					:active-text="scope.row.status === 1 ? '启用' : '禁用'"
+					:model-value="scope.row.displayStatus"
+					:active-text="scope.row.displayStatus === 1 ? '启用' : '禁用'"
 					:active-value="1"
 					:inactive-value="0"
 					@click="changeStatus(scope.row)"
 					v-if="BUTTONS.status"
 				/>
-				<el-tag :type="scope.row.status === 1 ? 'success' : 'danger'" v-else>
-					{{ scope.row.status === 1 ? "启用" : "禁用" }}
+				<el-tag :type="scope.row.displayStatus === 1 ? 'success' : 'danger'" v-else>
+					{{ scope.row.displayStatus === 1 ? "启用" : "禁用" }}
 				</el-tag>
 			</template>
 			<!-- 表格操作 -->
@@ -118,7 +118,7 @@ const columns: Partial<ColumnProps>[] = [
 	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面用户状态也同理
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
 	{
-		prop: "sex",
+		prop: "gender",
 		label: "性别",
 		width: 120,
 		sortable: true,
@@ -131,7 +131,7 @@ const columns: Partial<ColumnProps>[] = [
 	{ prop: "email", label: "邮箱", search: true },
 	{ prop: "address", label: "居住地址", search: true },
 	{
-		prop: "status",
+		prop: "displayStatus",
 		label: "用户状态",
 		sortable: true,
 		search: true,
@@ -175,7 +175,11 @@ const resetPass = async (params: User.ResUserList) => {
 
 // 切换用户状态
 const changeStatus = async (row: User.ResUserList) => {
-	await useHandleData(changeUserStatus, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.realName}】用户状态`);
+	await useHandleData(
+		changeUserStatus,
+		{ id: row.id, status: row.displayStatus == 1 ? 0 : 1 },
+		`切换【${row.realName}】用户状态`
+	);
 	proTable.value.getTableList();
 };
 
