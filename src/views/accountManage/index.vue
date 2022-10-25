@@ -1,11 +1,11 @@
 <template>
 	<div class="table-box">
-		<ProTable ref="proTable" :columns="columns" :requestApi="getUserList" :initParam="initParam" :dataCallback="dataCallback">
+		<ProTable ref="proTable" :columns="columns" :requestApi="getAccountList" :initParam="initParam" :dataCallback="dataCallback">
 			<!-- 表格 header 按钮 -->
 			<template #tableHeader="scope">
-				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增用户</el-button>
-				<el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加用户</el-button>
-				<el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出用户数据</el-button>
+				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增账号</el-button>
+				<el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加账号</el-button>
+				<el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出账号数据</el-button>
 				<el-button
 					type="danger"
 					:icon="Delete"
@@ -14,14 +14,14 @@
 					@click="batchDelete(scope.selectedListIds)"
 					v-if="BUTTONS.batchDelete"
 				>
-					批量删除用户
+					批量删除账号
 				</el-button>
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
 				{{ scope.row }}
 			</template>
-			<!-- 用户状态 slot -->
+			<!-- 账号状态 slot -->
 			<template #status="scope">
 				<!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所以使用 click 方法（暂时只能这样解决） -->
 				<el-switch
@@ -40,11 +40,11 @@
 			<template #operation="scope">
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
-				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
+				<el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
 				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
-		<UserDrawer ref="drawerRef" />
+		<AccountDrawer ref="drawerRef" />
 		<ImportExcel ref="dialogRef" />
 	</div>
 </template>
@@ -52,27 +52,26 @@
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from "vue";
 import { ElMessage } from "element-plus";
-import { User } from "@/api/interface";
+import { Account } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/ProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
-import UserDrawer from "@/views/userManage/UserDrawer.vue";
-import { CirclePlus, Delete, EditPen, Download, Upload, View } from "@element-plus/icons-vue";
+import AccountDrawer from "@/views/accountManage/AccountDrawer.vue";
+import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
 import {
-	getUserList,
-	deleteUser,
-	editUser,
-	addUser,
-	changeUserStatus,
-	// resetUserPassWord,
-	exportUserInfo,
-	BatchAddUser,
-	getUserStatus,
-	getUserGender
-} from "@/api/modules/user";
+	getAccountList,
+	deleteAccount,
+	editAccount,
+	addAccount,
+	changeAccountStatus,
+	resetAccountPassWord,
+	exportAccountInfo,
+	BatchAddAccount
+} from "@/api/modules/account";
+import { getUserStatus } from "@/api/modules/Common";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
@@ -114,25 +113,12 @@ const columns: Partial<ColumnProps>[] = [
 	{ type: "selection", width: 80, fixed: "left" },
 	{ type: "index", label: "#", width: 80 },
 	{ type: "expand", label: "Expand", width: 100 },
-	{ prop: "realName", label: "用户姓名", width: 130, search: true, renderHeader },
-	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面用户状态也同理
+	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面账号状态也同理
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
-	{
-		prop: "gender",
-		label: "性别",
-		width: 120,
-		sortable: true,
-		search: true,
-		searchType: "select",
-		enum: getUserGender,
-		searchProps: { label: "genderLabel", value: "genderValue" }
-	},
-	{ prop: "idCard", label: "身份证号", search: true },
 	{ prop: "mobile", label: "手机号", search: true },
-	{ prop: "addr", label: "居住地址", search: true },
 	{
 		prop: "displayStatus",
-		label: "用户状态",
+		label: "账号状态",
 		sortable: true,
 		search: true,
 		searchType: "select",
@@ -166,47 +152,47 @@ const columns: Partial<ColumnProps>[] = [
 	{ prop: "operation", label: "操作", width: 330, fixed: "right", renderHeader }
 ];
 
-// 删除用户信息
-const deleteAccount = async (params: User.ResUserList) => {
-	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
+// 删除账号信息
+const deleteAccount = async (params: Account.ResAccountList) => {
+	await useHandleData(deleteAccount, { id: [params.id] }, `删除【${params.mobile}】账号`);
 	proTable.value.getTableList();
 };
 
-// 批量删除用户信息
+// 批量删除账号信息
 const batchDelete = async (id: string[]) => {
-	await useHandleData(deleteUser, { id }, "删除所选用户信息");
+	await useHandleData(deleteAccount, { id }, "删除所选账号信息");
 	proTable.value.clearSelection();
 	proTable.value.getTableList();
 };
 
-// 重置用户密码
-// const resetPass = async (params: User.ResUserList) => {
-// 	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.realName}】用户密码`);
-// 	proTable.value.getTableList();
-// };
+// 重置账号密码
+const resetPass = async (params: Account.ResAccountList) => {
+	await useHandleData(resetAccountPassWord, { id: params.id }, `重置【${params.mobile}】账号密码`);
+	proTable.value.getTableList();
+};
 
-// 切换用户状态
-const changeStatus = async (row: User.ResUserList) => {
+// 切换账号状态
+const changeStatus = async (row: Account.ResAccountList) => {
 	await useHandleData(
-		changeUserStatus,
+		changeAccountStatus,
 		{ id: row.id, status: row.displayStatus == 1 ? 0 : 1 },
-		`切换【${row.realName}】用户状态`
+		`切换【${row.mobile}】账号状态`
 	);
 	proTable.value.getTableList();
 };
 
-// 导出用户列表
+// 导出账号列表
 const downloadFile = async () => {
-	useDownload(exportUserInfo, "用户列表", proTable.value.searchParam);
+	useDownload(exportAccountInfo, "账号列表", proTable.value.searchParam);
 };
 
-// 批量添加用户
+// 批量添加账号
 const dialogRef = ref();
 const batchAdd = () => {
 	let params = {
-		title: "用户",
-		tempApi: exportUserInfo,
-		importApi: BatchAddUser,
+		title: "账号",
+		tempApi: exportAccountInfo,
+		importApi: BatchAddAccount,
 		getTableList: proTable.value.getTableList
 	};
 	dialogRef.value.acceptParams(params);
@@ -214,12 +200,12 @@ const batchAdd = () => {
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();
-const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar: "" }) => {
+const openDrawer = (title: string, rowData: Partial<Account.ResAccountList> = { avatar: "" }) => {
 	let params = {
 		title,
 		rowData: { ...rowData },
 		isView: title === "查看",
-		apiUrl: title === "新增" ? addUser : title === "编辑" ? editUser : "",
+		apiUrl: title === "新增" ? addAccount : title === "编辑" ? editAccount : "",
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);

@@ -1,4 +1,4 @@
-import { ResPage, User } from "@/api/interface/index";
+import { ResPage, Account } from "@/api/interface/index";
 import { PORT1 } from "@/api/config/servicePort";
 
 import http from "@/api";
@@ -6,57 +6,47 @@ import http from "@/api";
 /**
  * @name 管理模块
  */
-// * 获取用户列表
-export const getUserList = (params: User.ReqGetUserParams) => {
-	return http.get<ResPage<User.ResUserList>>(PORT1 + `/sysUser/page`, params);
+// * 获取账号列表
+export const getAccountList = (params: Account.ReqGetAccountParams) => {
+	return http.get<ResPage<Account.ResAccountList>>(PORT1 + `/sysAccount/page`, params);
 };
 
-// * 新增用户
-export const addUser = (params: { id: string }) => {
-	return http.post(PORT1 + `/user/add`, params);
+// * 新增账号
+export const addAccount = (params: { id: string }) => {
+	return http.post(PORT1 + `/sysAccount/add`, params);
 };
 
-// * 批量添加用户
-export const BatchAddUser = (params: FormData) => {
-	return http.post(PORT1 + `/user/import`, params);
+// * 批量添加账号
+export const BatchAddAccount = (params: FormData) => {
+	return http.post(PORT1 + `/sysAccount/import`, params);
 };
 
-// * 编辑用户
-export const editUser = (params: { id: string }) => {
-	return http.post(PORT1 + `/sysUser/update`, params, { headers: { noLoading: true } });
+// * 编辑账号
+export const editAccount = (params: { id: string }) => {
+	return http.post(PORT1 + `/sysAccount/update`, params, { headers: { noLoading: true } });
 };
 
-// * 删除用户
-export const deleteUser = (params: { id: string[] }) => {
-	return http.post(PORT1 + `/user/delete`, params);
+// * 删除账号
+export const deleteAccount = (params: { id: string[] }) => {
+	return http.post(PORT1 + `/sysAccount/delete`, params);
 };
 
-// * 切换用户状态
-export const changeUserStatus = (params: { id: string; status: number }) => {
-	return http.post(PORT1 + `/user/change`, params);
+// * 切换账号状态
+export const changeAccountStatus = (params: { id: string; status: number }) => {
+	return http.post(PORT1 + `/sysAccount/change`, params);
 };
 
-// * 重置用户密码
-export const resetUserPassWord = (params: { id: string }) => {
-	return http.post(PORT1 + `/user/rest_password`, params);
+// * 重置账号密码
+export const resetAccountPassWord = (params: { id: string }) => {
+	return http.post(PORT1 + `/sysAccount/rest_password`, params);
 };
 
-// * 导出用户数据
-export const exportUserInfo = (params: User.ReqGetUserParams) => {
-	return http.post<BlobPart>(PORT1 + `/user/export`, params, { responseType: "blob" });
+// * 导出账号数据
+export const exportAccountInfo = (params: Account.ReqGetAccountParams) => {
+	return http.post<BlobPart>(PORT1 + `/sysAccount/export`, params, { responseType: "blob" });
 };
 
-// * 获取用户状态
-export const getUserStatus = () => {
-	return http.get<User.ResStatus>(PORT1 + `/sysUser/status`);
-};
-
-// * 获取用户性别字典
-export const getUserGender = () => {
-	return http.get<User.ResGender>(PORT1 + `/sysUser/gender`);
-};
-
-// * 获取用户部门列表
-export const getUserDepartment = () => {
-	return http.get<User.ResDepartment>(PORT1 + `/user/department`);
+// * 获取账号状态
+export const getAccountStatus = () => {
+	return http.get<Account.ResStatus>(PORT1 + `/sysAccount/status`);
 };

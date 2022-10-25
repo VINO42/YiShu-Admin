@@ -80,6 +80,34 @@ export namespace User {
 	}
 }
 
+// * 账号管理模块
+export namespace Account {
+	export interface ReqGetAccountParams extends ReqPage {
+		mobile: string;
+		unionId: string;
+		nickName: number;
+		userId: string;
+		// createTime: string[];
+		// status: string;
+		displayStatus: number;
+	}
+	export interface ResAccountList {
+		id: string;
+		mobile: string;
+		unionId: string;
+		nickName: number;
+		userId: string;
+		// createTime: string;
+		// status: string;
+		displayStatus: number;
+		avatar: string;
+		children?: ResAccountList[];
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
 // * 文件上传模块
 export namespace Upload {
 	export interface ResFileUrl {
