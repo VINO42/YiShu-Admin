@@ -28,22 +28,22 @@ export const editUser = (params: { id: string }) => {
 
 // * 删除用户
 export const deleteUser = (params: { id: string[] }) => {
-	return http.post(PORT1 + `/user/delete`, params);
+	return http.post(PORT1 + `/sysUser/delete`, params);
 };
 
 // * 切换用户状态
 export const changeUserStatus = (params: { id: string; status: number }) => {
-	return http.post(PORT1 + `/user/change`, params);
+	return http.post(PORT1 + `/sysUser/change`, params);
 };
 
 // * 重置用户密码
 export const resetUserPassWord = (params: { id: string }) => {
-	return http.post(PORT1 + `/user/rest_password`, params);
+	return http.post(PORT1 + `/sysUser/rest_password`, params);
 };
 
 // * 导出用户数据
 export const exportUserInfo = (params: User.ReqGetUserParams) => {
-	return http.post<BlobPart>(PORT1 + `/user/export`, params, { responseType: "blob" });
+	return http.post<BlobPart>(PORT1 + `/sysUser/export`, params, { responseType: "blob" });
 };
 
 // * 获取用户状态

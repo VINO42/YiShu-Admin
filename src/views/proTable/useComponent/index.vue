@@ -137,7 +137,7 @@ const columns: Partial<ColumnProps>[] = [
 		search: true,
 		searchType: "select",
 		enum: getUserStatus,
-		searchProps: { label: "userLabel", value: "userStatus" }
+		searchProps: { label: "desc", value: "status" }
 	},
 	{
 		prop: "createTime",

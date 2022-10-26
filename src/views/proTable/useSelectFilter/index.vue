@@ -81,7 +81,7 @@ const columns: Partial<ColumnProps>[] = [
 const selectFilterData = [
 	{
 		title: "用户状态(单)",
-		key: "userStatus",
+		key: "status",
 		options: [
 			{
 				label: "全部",

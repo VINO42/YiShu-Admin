@@ -41,7 +41,7 @@
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 				<el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
-				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
+				<el-button type="primary" link :icon="Delete" @click="deleteAccountInfo(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
 		<AccountDrawer ref="drawerRef" />
@@ -125,7 +125,7 @@ const columns: Partial<ColumnProps>[] = [
 		search: true,
 		searchType: "select",
 		enum: getUserStatus,
-		searchProps: { label: "userLabel", value: "userStatus" }
+		searchProps: { label: "desc", value: "status" }
 	},
 	{
 		prop: "createTime",
@@ -155,7 +155,7 @@ const columns: Partial<ColumnProps>[] = [
 ];
 
 // 删除账号信息
-const deleteAccount = async (params: Account.ResAccountList) => {
+const deleteAccountInfo = async (params: Account.ResAccountList) => {
 	await useHandleData(deleteAccount, { id: [params.id] }, `删除【${params.mobile}】账号`);
 	proTable.value.getTableList();
 };
