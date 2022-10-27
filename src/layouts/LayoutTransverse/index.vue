@@ -4,7 +4,7 @@
 		<el-header>
 			<div class="logo flx-center">
 				<img src="@/assets/images/logo.svg" alt="logo" />
-				<span>Geeker Admin</span>
+				<span>易书管理平台</span>
 			</div>
 			<el-menu
 				mode="horizontal"
