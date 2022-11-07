@@ -32,8 +32,8 @@ export const deleteUser = (params: { id: string[] }) => {
 };
 
 // * 切换用户状态
-export const changeUserStatus = (params: { id: string; status: number }) => {
-	return http.post(PORT1 + `/sysUser/change`, params);
+export const changeUserStatus = (params: { id: string; displayStatus: number }) => {
+	return http.post(PORT1 + `/sysUser/update`, params);
 };
 
 // * 重置用户密码

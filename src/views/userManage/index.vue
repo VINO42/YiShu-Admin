@@ -22,7 +22,7 @@
 				{{ scope.row }}
 			</template>
 			<!-- 用户状态 slot -->
-			<template #status="scope">
+			<template #displayStatus="scope">
 				<!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所以使用 click 方法（暂时只能这样解决） -->
 				<el-switch
 					:model-value="scope.row.displayStatus"
@@ -189,7 +189,7 @@ const batchDelete = async (id: string[]) => {
 const changeStatus = async (row: User.ResUserList) => {
 	await useHandleData(
 		changeUserStatus,
-		{ id: row.id, status: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
 		`切换【${row.realName}】用户状态`
 	);
 	proTable.value.getTableList();

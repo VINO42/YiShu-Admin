@@ -32,8 +32,8 @@ export const deleteAccount = (params: { id: string[] }) => {
 };
 
 // * 切换账号状态
-export const changeAccountStatus = (params: { id: string; status: number }) => {
-	return http.post(PORT1 + `/sysAccount/change`, params);
+export const changeAccountStatus = (params: { id: string; displayStatus: number }) => {
+	return http.post(PORT1 + `/sysAccount/update`, params);
 };
 
 // * 重置账号密码

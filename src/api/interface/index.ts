@@ -108,6 +108,27 @@ export namespace Account {
 		userValue: number;
 	}
 }
+//用户组管理
+export namespace UserGroup {
+	export interface ReqGetUserGroupParams extends ReqPage {
+		userGroupName: string;
+		userGroupCode: string;
+		displayStatus: number;
+	}
+	export interface ResUserGroupList {
+		id: string;
+		userGroupName: string;
+		userGroupCode: string;
+		versionStamp: number;
+		displayStatus: number;
+		children?: ResUserGroupList[];
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
+
 // * 文件上传模块
 export namespace Upload {
 	export interface ResFileUrl {
