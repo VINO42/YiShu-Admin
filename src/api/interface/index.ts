@@ -128,6 +128,26 @@ export namespace UserGroup {
 		userValue: number;
 	}
 }
+//角色管理
+export namespace Role {
+	export interface ReqGetRoleParams extends ReqPage {
+		roleName: string;
+		roleCode: string;
+		displayStatus: number;
+	}
+	export interface ResRoleList {
+		id: string;
+		roleName: string;
+		roleCode: string;
+		versionStamp: number;
+		displayStatus: number;
+		children?: ResRoleList[];
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
 
 // * 文件上传模块
 export namespace Upload {
