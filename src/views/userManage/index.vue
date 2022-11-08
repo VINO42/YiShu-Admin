@@ -40,18 +40,23 @@
 			<template #operation="scope">
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组')">分配用户组</el-button>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色')">分配角色</el-button>
+
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
 		<UserDrawer ref="drawerRef" />
+		<UserGroupListDrawer ref="userGroupListDrawerRef" />
+
 		<ImportExcel ref="dialogRef" />
 	</div>
 </template>
 
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from "vue";
-import { ElMessage } from "element-plus";
+import { ElButton, ElMessage, ElSwitch, ElTag } from "element-plus";
 import { User } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
@@ -60,6 +65,8 @@ import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/ProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/userManage/UserDrawer.vue";
+import UserGroupListDrawer from "@/views/userManage/UserGroupListDrawer.vue";
+
 import { CirclePlus, Delete, EditPen, Download, Upload, View } from "@element-plus/icons-vue";
 import {
 	getUserList,
@@ -71,9 +78,12 @@ import {
 	exportUserInfo,
 	BatchAddUser,
 	getUserStatus,
-	getUserGender
+	getUserGender,
+	alocateUserGroup,
+	alocateUserRole,
+	getAllocateUserGroupList,
+	getAllocateRoleList
 } from "@/api/modules/user";
-
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
 
@@ -214,6 +224,8 @@ const batchAdd = () => {
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();
+const userGroupListDrawerRef = ref();
+
 const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar: "" }) => {
 	let params = {
 		title,
@@ -223,5 +235,13 @@ const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);
+};
+const openAllocateDrawer = (title: string) => {
+	let params = {
+		title,
+		rowData: title === "分配用户组" ? getAllocateUserGroupList : title === "分配角色" ? getAllocateRoleList : "",
+		apiUrl: title === "分配用户组" ? alocateUserGroup : title === "分配角色" ? alocateUserRole : ""
+	};
+	userGroupListDrawerRef.value.acceptParams(params);
 };
 </script>

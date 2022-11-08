@@ -9,11 +9,11 @@
 			label-suffix=" :"
 			:hide-required-asterisk="drawerData.isView"
 		>
-			<el-form-item label="角色名称" prop="userGroupName">
-				<el-input v-model="drawerData.rowData!.userGroupName" placeholder="请填写用户姓名" clearable></el-input>
+			<el-form-item label="角色名称" prop="roleName">
+				<el-input v-model="drawerData.rowData!.roleName" placeholder="请填写角色名称" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="角色编码" prop="userGroupCode">
-				<el-input v-model="drawerData.rowData!.userGroupCode" placeholder="请填写角色编码" clearable></el-input>
+			<el-form-item label="角色编码" prop="roleCode">
+				<el-input v-model="drawerData.rowData!.roleCode" placeholder="请填写角色编码" clearable></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -23,20 +23,20 @@
 	</el-drawer>
 </template>
 
-<script setup lang="ts" name="UserGroupDrawer">
-import { UserGroup } from "@/api/interface";
+<script setup lang="ts" name="RoleDrawer">
+import { Role } from "@/api/interface";
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
 
 const rules = reactive({
-	userGroupName: [{ required: true, message: "请填写角色名称", trigger: "change" }],
-	userGroupCode: [{ required: true, message: "请填写角色编码", trigger: "change" }]
+	roleName: [{ required: true, message: "请填写角色名称", trigger: "change" }],
+	roleCode: [{ required: true, message: "请填写角色编码", trigger: "change" }]
 });
 
 interface DrawerProps {
 	title: string;
 	isView: boolean;
-	rowData?: UserGroup.ResUserGroupList;
+	rowData?: Role.ResRoleList;
 	apiUrl?: (params: any) => Promise<any>;
 	getTableList?: () => Promise<any>;
 }

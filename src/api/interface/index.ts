@@ -123,6 +123,11 @@ export namespace UserGroup {
 		displayStatus: number;
 		children?: ResUserGroupList[];
 	}
+
+	export interface ResAllocateList {
+		id: string;
+		name: string;
+	}
 	export interface ResStatus {
 		userLabel: string;
 		userValue: number;

@@ -1,4 +1,4 @@
-import { ResPage, User } from "@/api/interface/index";
+import { ResPage, User, UserGroup } from "@/api/interface/index";
 import { PORT1 } from "@/api/config/servicePort";
 
 import http from "@/api";
@@ -55,8 +55,19 @@ export const getUserStatus = () => {
 export const getUserGender = () => {
 	return http.get<User.ResGender>(PORT1 + `/sysUser/gender`);
 };
-
-// * 获取用户部门列表
-export const getUserDepartment = () => {
-	return http.get<User.ResDepartment>(PORT1 + `/user/department`);
+// * 分配用户组
+export const alocateUserGroup = (params: { id: string }) => {
+	return http.post(PORT1 + `/sysUser/alocateUserGroup`, params, { headers: { noLoading: true } });
+};
+// * 分配用户角色
+export const alocateUserRole = (params: { id: string }) => {
+	return http.post(PORT1 + `/sysUser/alocateUserRole`, params, { headers: { noLoading: true } });
+};
+// * 分配用户角色
+export const getAllocateUserGroupList = () => {
+	return http.get<ResPage<UserGroup.ResAllocateList>>(PORT1 + `/sysUserGroup/page`, { headers: { noLoading: true } });
+};
+// * 分配用户角色
+export const getAllocateRoleList = () => {
+	return http.get<ResPage<UserGroup.ResAllocateList>>(PORT1 + `/sysUserGroup/page`, { headers: { noLoading: true } });
 };

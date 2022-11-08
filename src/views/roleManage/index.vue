@@ -108,7 +108,7 @@ const columns: Partial<ColumnProps>[] = [
 	{ prop: "roleCode", label: "角色编码", search: true },
 	{
 		prop: "displayStatus",
-		label: "用户状态",
+		label: "角色状态",
 		sortable: true,
 		search: true,
 		searchType: "select",
