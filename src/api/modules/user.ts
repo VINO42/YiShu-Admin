@@ -65,9 +65,13 @@ export const alocateUserRole = (params: { id: string }) => {
 };
 // * 分配用户角色
 export const getAllocateUserGroupList = () => {
-	return http.get<ResPage<UserGroup.ResAllocateList>>(PORT1 + `/sysUserGroup/page`, { headers: { noLoading: true } });
+	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysUserGroup/getAllocateUserGroupList`, {
+		headers: { noLoading: true }
+	});
 };
 // * 分配用户角色
 export const getAllocateRoleList = () => {
-	return http.get<ResPage<UserGroup.ResAllocateList>>(PORT1 + `/sysUserGroup/page`, { headers: { noLoading: true } });
+	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysRole/getAllocateUserRoleList`, {
+		headers: { noLoading: true }
+	});
 };

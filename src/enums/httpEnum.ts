@@ -3,10 +3,11 @@
  * @description：请求配置
  */
 export enum ResultEnum {
-	SUCCESS = 20000,
-	ERROR = 500,
-	OVERDUE = 599,
-	TIMEOUT = 10000,
+	SUCCESS = 200000,
+	NEED_LOGIN = 401001,
+	FORBIDDEN = 401024,
+	ERROR = 500000,
+	TIMEOUT = 504000,
 	TYPE = "success"
 }
 

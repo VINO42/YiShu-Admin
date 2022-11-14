@@ -1,30 +1,32 @@
 <template>
-	<div style="display: inline-block; margin-left: 20px">
-		<p style="margin-left: 10px">use collapse-tags-tooltip</p>
-		<el-select v-model="value3" multiple collapse-tags collapse-tags-tooltip placeholder="Select" style="width: 240px">
-			<el-option v-for="item in drawerData.rowData" :key="item.id" :label="item.name" :value="item.id" />
-			<template #footer>
-				<el-button @click="drawerVisible = false">取消</el-button>
-				<el-button type="primary" v-show="!drawerData.isView" @click="handleSubmit">确定</el-button>
-			</template>
-		</el-select>
-	</div>
+	<el-form-item>
+		<el-drawer v-model="drawerVisible" :destroy-on-close="true" size="500px" :title="`${drawerData.title}`">
+			<div style="display: inline-block; margin-left: 20px">
+				<!-- <p style="margin-left: 10px">用户组列表</p> -->
+				<el-select v-model="value3" multiple collapse-tags collapse-tags-tooltip placeholder="请选择" style="width: 240px">
+					<el-option v-for="item in drawerData.rowData" :key="item.id" :label="item.name" :value="item.id" />
+					<template #footer>
+						<el-button @click="drawerVisible = false">取消</el-button>
+						<el-button type="primary" v-show="!drawerData.isView" @click="handleSubmit">确定</el-button>
+					</template>
+				</el-select>
+			</div>
+		</el-drawer>
+	</el-form-item>
 </template>
 
 <script setup lang="ts" name="UserGroupListDrawer">
 import { UserGroup } from "@/api/interface";
 import { ref } from "vue";
-import { ElMessage, FormInstance } from "element-plus";
+import { ElMessage, FormInstance, ElSelect } from "element-plus";
 const value3 = ref([]);
-
 interface DrawerProps {
 	title: string;
 	isView: boolean;
-	rowData?: UserGroup.ResAllocateList;
+	rowData?: UserGroup.ResAllocateList[];
 	apiUrl?: (params: any) => Promise<any>;
 	getTableList?: () => Promise<any>;
 }
-
 // drawer框状态
 const drawerVisible = ref(false);
 const drawerData = ref<DrawerProps>({

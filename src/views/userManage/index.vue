@@ -40,8 +40,8 @@
 			<template #operation="scope">
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
-				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组')">分配用户组</el-button>
-				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色')">分配角色</el-button>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组', scope.row)">分配用户组</el-button>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色', scope.row)">分配角色</el-button>
 
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
@@ -57,7 +57,7 @@
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from "vue";
 import { ElButton, ElMessage, ElSwitch, ElTag } from "element-plus";
-import { User } from "@/api/interface";
+import { User, UserGroup } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
@@ -236,12 +236,32 @@ const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar
 	};
 	drawerRef.value.acceptParams(params);
 };
-const openAllocateDrawer = (title: string) => {
+let v1: UserGroup.ResAllocateList[] = [];
+getAllocateUserGroupList()
+	.then(value => {
+		console.log(value.data);
+		v1 = value.data;
+	})
+	.catch(err => {
+		console.error(err);
+	});
+let v2: UserGroup.ResAllocateList[] = [];
+getAllocateRoleList()
+	.then(value => {
+		console.log(value.data);
+		v2 = value.data;
+	})
+	.catch(err => {
+		console.error(err);
+	});
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const openAllocateDrawer = (title: string, rowData: Partial<UserGroup.ResAllocateList[]> = []) => {
 	let params = {
 		title,
-		rowData: title === "分配用户组" ? getAllocateUserGroupList : title === "分配角色" ? getAllocateRoleList : "",
+		rowData: title === "分配用户组" ? v1 : title === "分配角色" ? v2 : "",
 		apiUrl: title === "分配用户组" ? alocateUserGroup : title === "分配角色" ? alocateUserRole : ""
 	};
+	// console.log("params:" + params._rowData.id);
 	userGroupListDrawerRef.value.acceptParams(params);
 };
 </script>
