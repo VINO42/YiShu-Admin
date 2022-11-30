@@ -50,7 +50,6 @@
 
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from "vue";
-import { ElMessage } from "element-plus";
 import { Role } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
@@ -84,18 +83,6 @@ const dataCallback = (data: any) => {
 const { BUTTONS } = useAuthButtons();
 
 // 自定义渲染头部(使用tsx语法)
-const renderHeader = (scope: any) => {
-	return (
-		<el-button
-			type="primary"
-			onClick={() => {
-				ElMessage.success("我是自定义表头");
-			}}
-		>
-			{scope.row.label}
-		</el-button>
-	);
-};
 
 // 表格配置项
 const columns: Partial<ColumnProps>[] = [
@@ -104,16 +91,15 @@ const columns: Partial<ColumnProps>[] = [
 	{ type: "expand", label: "Expand", width: 100 },
 	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面用户状态也同理
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
-	{ prop: "roleName", label: "角色名称", search: true },
-	{ prop: "roleCode", label: "角色编码", search: true },
+	{ prop: "roleName", label: "角色名称", search: { el: "input" } },
+	{ prop: "roleCode", label: "角色编码", search: { el: "input" } },
 	{
 		prop: "displayStatus",
 		label: "角色状态",
 		sortable: true,
-		search: true,
-		searchType: "select",
+		search: { el: "select" },
 		enum: getUserStatus,
-		searchProps: { label: "desc", value: "status" }
+		fieldNames: { label: "desc", value: "status" }
 	},
 	{
 		prop: "createTime",
@@ -139,7 +125,7 @@ const columns: Partial<ColumnProps>[] = [
 		// },
 		// searchInitParam: ["2022-09-30 00:00:00", "2022-09-20 23:59:59"]
 	},
-	{ prop: "operation", label: "操作", width: 330, fixed: "right", renderHeader }
+	{ prop: "operation", label: "操作", width: 330, fixed: "right" }
 ];
 
 // 删除角色信息

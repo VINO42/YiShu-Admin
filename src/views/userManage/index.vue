@@ -58,7 +58,7 @@
 
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from "vue";
-import { ElButton, ElMessage, ElSwitch, ElTag } from "element-plus";
+import { ElButton, ElSwitch, ElTag } from "element-plus";
 import { User, UserGroup } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
@@ -110,25 +110,13 @@ const dataCallback = (data: any) => {
 const { BUTTONS } = useAuthButtons();
 
 // 自定义渲染头部(使用tsx语法)
-const renderHeader = (scope: any) => {
-	return (
-		<el-button
-			type="primary"
-			onClick={() => {
-				ElMessage.success("我是自定义表头");
-			}}
-		>
-			{scope.row.label}
-		</el-button>
-	);
-};
 
 // 表格配置项
 const columns: Partial<ColumnProps>[] = [
 	{ type: "selection", width: 80, fixed: "left" },
 	{ type: "index", label: "#", width: 80 },
 	{ type: "expand", label: "Expand", width: 100 },
-	{ prop: "realName", label: "用户姓名", width: 130, search: true, renderHeader },
+	{ prop: "realName", label: "用户姓名", width: 130, search: { el: "input" } },
 	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面用户状态也同理
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
 	{
@@ -136,22 +124,20 @@ const columns: Partial<ColumnProps>[] = [
 		label: "性别",
 		width: 120,
 		sortable: true,
-		search: true,
-		searchType: "select",
+		search: { el: "select" },
 		enum: getUserGender,
-		searchProps: { label: "genderLabel", value: "genderValue" }
+		fieldNames: { label: "genderLabel", value: "genderValue" }
 	},
-	{ prop: "idCard", label: "身份证号", search: true },
-	{ prop: "mobile", label: "手机号", search: true },
-	{ prop: "addr", label: "居住地址", search: true },
+	{ prop: "idCard", label: "身份证号", search: { el: "input" } },
+	{ prop: "mobile", label: "手机号", search: { el: "input" } },
+	{ prop: "addr", label: "居住地址", search: { el: "input" } },
 	{
 		prop: "displayStatus",
 		label: "用户状态",
 		sortable: true,
-		search: true,
-		searchType: "select",
+		search: { el: "select" },
 		enum: getUserStatus,
-		searchProps: { label: "desc", value: "status" }
+		fieldNames: { label: "desc", value: "status" }
 	},
 	{
 		prop: "createTime",
@@ -177,7 +163,7 @@ const columns: Partial<ColumnProps>[] = [
 		// },
 		// searchInitParam: ["2022-09-30 00:00:00", "2022-09-20 23:59:59"]
 	},
-	{ prop: "operation", label: "操作", width: 330, fixed: "right", renderHeader }
+	{ prop: "operation", label: "操作", fixed: "right", width: 330 }
 ];
 
 // 删除用户信息

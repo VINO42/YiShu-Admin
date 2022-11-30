@@ -130,14 +130,14 @@ const columns: ColumnProps[] = [
 		fieldNames: { label: "genderLabel", value: "genderValue" },
 		search: { el: "select" }
 	},
-	{ prop: "idCard", label: "身份证号", search: true },
-	{ prop: "mobile", label: "手机号", search: true },
-	{ prop: "addr", label: "居住地址", search: true },
+	{ prop: "idCard", label: "身份证号", search: { el: "input" } },
+	{ prop: "mobile", label: "手机号", search: { el: "input" } },
+	{ prop: "addr", label: "居住地址", search: { el: "input" } },
 	{
 		prop: "status",
 		label: "用户状态",
 		enum: getUserStatus,
-		fieldNames: { label: "desc", value: "status" },
+		fieldNames: { label: "userLabel", value: "userValue" },
 		search: {
 			el: "tree-select",
 			props: { props: { label: "userLabel" }, nodeKey: "userStatus" }
@@ -147,14 +147,14 @@ const columns: ColumnProps[] = [
 				<>
 					{BUTTONS.value.status ? (
 						<el-switch
-							model-value={scope.row.status}
-							active-text={scope.row.status ? "启用" : "禁用"}
+							model-value={scope.row.displayStatus}
+							active-text={scope.row.displayStatus ? "启用" : "禁用"}
 							active-value={1}
 							inactive-value={0}
 							onClick={() => changeStatus(scope.row)}
 						/>
 					) : (
-						<el-tag type={scope.row.status ? "success" : "danger"}>{scope.row.status ? "启用" : "禁用"}</el-tag>
+						<el-tag type={scope.row.displayStatus ? "success" : "danger"}>{scope.row.displayStatus ? "启用" : "禁用"}</el-tag>
 					)}
 				</>
 			);
@@ -177,7 +177,7 @@ const columns: ColumnProps[] = [
 
 // 删除用户信息
 const deleteAccount = async (params: User.ResUserList) => {
-	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.username}】用户`);
+	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
 	proTable.value.getTableList();
 };
 
@@ -190,13 +190,17 @@ const batchDelete = async (id: string[]) => {
 
 // 重置用户密码
 const resetPass = async (params: User.ResUserList) => {
-	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.username}】用户密码`);
+	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.realName}】用户密码`);
 	proTable.value.getTableList();
 };
 
 // 切换用户状态
 const changeStatus = async (row: User.ResUserList) => {
-	await useHandleData(changeUserStatus, { id: row.id, status: row.status == 1 ? 0 : 1 }, `切换【${row.username}】用户状态`);
+	await useHandleData(
+		changeUserStatus,
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		`切换【${row.realName}】用户状态`
+	);
 	proTable.value.getTableList();
 };
 
