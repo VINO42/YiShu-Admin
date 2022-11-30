@@ -63,15 +63,28 @@ export const alocateUserGroup = (params: { id: string }) => {
 export const alocateUserRole = (params: { id: string }) => {
 	return http.post(PORT1 + `/sysUser/alocateUserRole`, params, { headers: { noLoading: true } });
 };
-// * 分配用户角色
+// * 获取所有的用户组列表
 export const getAllocateUserGroupList = () => {
 	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysUserGroup/getAllocateUserGroupList`, {
 		headers: { noLoading: true }
 	});
 };
-// * 分配用户角色
+// * 获取所有的用户角色列表
 export const getAllocateRoleList = () => {
 	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysRole/getAllocateUserRoleList`, {
+		headers: { noLoading: true }
+	});
+};
+// * 获取某个用户的用户组列表信息
+export const getUserGroupIdList = (params: { userId: string }) => {
+	return http.get<UserGroup.ResUserGroupRolesList[]>(PORT1 + `/sysUser/getUserGroupIdList`, params, {
+		headers: { noLoading: true }
+	});
+};
+
+// * 获取某个用户的用户组列表信息
+export const getUserRoleIdList = (params: { userId: string }) => {
+	return http.get<UserGroup.ResUserGroupRolesList[]>(PORT1 + `/sysUser/getUserRoleIdList`, params, {
 		headers: { noLoading: true }
 	});
 };

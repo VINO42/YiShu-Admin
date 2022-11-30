@@ -3,8 +3,22 @@
 		<el-drawer v-model="drawerVisible" :destroy-on-close="true" size="500px" :title="`${drawerData.title}`">
 			<div style="display: inline-block; margin-left: 20px">
 				<!-- <p style="margin-left: 10px">用户组列表</p> -->
-				<el-select v-model="value3" multiple collapse-tags collapse-tags-tooltip placeholder="请选择" style="width: 240px">
-					<el-option v-for="item in drawerData.rowData" :key="item.id" :label="item.name" :value="item.id" />
+				<el-select
+					v-model="drawerData.modelData"
+					multiple
+					collapse-tags
+					collapse-tags-tooltip
+					placeholder="请选择"
+					style="width: 240px"
+					:destroy-on-close="true"
+				>
+					<el-option
+						v-for="item in drawerData.rowData"
+						:key="item.id"
+						:label="item.name"
+						:value="item.id"
+						:destroy-on-close="true"
+					/>
 					<template #footer>
 						<el-button @click="drawerVisible = false">取消</el-button>
 						<el-button type="primary" v-show="!drawerData.isView" @click="handleSubmit">确定</el-button>
@@ -19,9 +33,11 @@
 import { UserGroup } from "@/api/interface";
 import { ref } from "vue";
 import { ElMessage, FormInstance, ElSelect } from "element-plus";
-const value3 = ref([]);
+// const value3 = ref([]);
 interface DrawerProps {
 	title: string;
+	userId: string;
+	modelData?: UserGroup.ResUserGroupRolesList[];
 	isView: boolean;
 	rowData?: UserGroup.ResAllocateList[];
 	apiUrl?: (params: any) => Promise<any>;
@@ -31,6 +47,7 @@ interface DrawerProps {
 const drawerVisible = ref(false);
 const drawerData = ref<DrawerProps>({
 	isView: false,
+	userId: "",
 	title: ""
 });
 
@@ -39,6 +56,7 @@ const acceptParams = (params: DrawerProps): void => {
 	drawerData.value = params;
 	drawerVisible.value = true;
 };
+console.log("1111" + drawerData.value.modelData);
 
 // 提交数据（新增/编辑）
 const ruleFormRef = ref<FormInstance>();

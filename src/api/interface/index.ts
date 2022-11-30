@@ -128,6 +128,9 @@ export namespace UserGroup {
 		id: string;
 		name: string;
 	}
+	export interface ResUserGroupRolesList {
+		id: string;
+	}
 	export interface ResStatus {
 		userLabel: string;
 		userValue: number;

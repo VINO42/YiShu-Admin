@@ -40,8 +40,10 @@
 			<template #operation="scope">
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
-				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组', scope.row)">分配用户组</el-button>
-				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色', scope.row)">分配角色</el-button>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组', scope.row.id)"
+					>分配用户组</el-button
+				>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色', scope.row.id)">分配角色</el-button>
 
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
@@ -82,7 +84,9 @@ import {
 	alocateUserGroup,
 	alocateUserRole,
 	getAllocateUserGroupList,
-	getAllocateRoleList
+	getAllocateRoleList,
+	getUserGroupIdList,
+	getUserRoleIdList
 } from "@/api/modules/user";
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
@@ -254,14 +258,44 @@ getAllocateRoleList()
 	.catch(err => {
 		console.error(err);
 	});
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const openAllocateDrawer = (title: string, rowData: Partial<UserGroup.ResAllocateList[]> = []) => {
-	let params = {
-		title,
-		rowData: title === "分配用户组" ? v1 : title === "分配角色" ? v2 : "",
-		apiUrl: title === "分配用户组" ? alocateUserGroup : title === "分配角色" ? alocateUserRole : ""
-	};
-	// console.log("params:" + params._rowData.id);
-	userGroupListDrawerRef.value.acceptParams(params);
+
+const openAllocateDrawer = (title: string, id: string) => {
+	let v3: UserGroup.ResUserGroupRolesList[] = [];
+	if (title === "分配用户组") {
+		getUserGroupIdList({ userId: id })
+			.then(value => {
+				let params = {
+					title,
+					id,
+					modelData: value.data,
+					rowData: v1,
+					apiUrl: alocateUserGroup
+				};
+				// console.log("params:" + params._rowData.id);
+				userGroupListDrawerRef.value.acceptParams(params);
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		console.log("111" + v3);
+	}
+
+	if (title === "分配角色") {
+		getUserRoleIdList({ userId: id })
+			.then(value => {
+				let params = {
+					title,
+					id,
+					modelData: value.data,
+					rowData: v2,
+					apiUrl: alocateUserRole
+				};
+				// console.log("params:" + params._rowData.id);
+				userGroupListDrawerRef.value.acceptParams(params);
+			})
+			.catch(err => {
+				console.error(err);
+			});
+	}
 };
 </script>
