@@ -46,10 +46,14 @@
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组角色', scope.row.id)"
+					>分配用户组角色</el-button
+				>
 				<el-button type="primary" link :icon="Delete" @click="deleteUserGroupConst(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
 		<UserGroupDrawer ref="drawerRef" />
+		<UserGroupRoleListDrawer ref="userGroupRoleListDrawerRef" />
 		<ImportExcel ref="dialogRef" />
 	</div>
 </template>
@@ -63,8 +67,10 @@ import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserGroupDrawer from "@/views/userGroupManage/UserGroupDrawer.vue";
+import UserGroupRoleListDrawer from "@/views/userGroupManage/UserGroupRoleListDrawer.vue";
 import { getUserStatus } from "@/api/modules/common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
+import { alocateUserRole, getAllocateRoleList, getUserRoleIdList } from "@/api/modules/user";
 import { getUserGroupList, deleteUserGroup, editUserGroup, addUserGroup, changeUserGroupStatus } from "@/api/modules/userGroup";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
@@ -160,6 +166,37 @@ const batchDelete = async (id: string[]) => {
 	await useHandleData(deleteUserGroup, { id }, "删除所选用户组信息");
 	proTable.value.clearSelection();
 	proTable.value.getTableList();
+};
+const userGroupRoleListDrawerRef = ref();
+
+let v1: UserGroup.ResAllocateList[] = [];
+getAllocateRoleList()
+	.then(value => {
+		console.log(value.data);
+		v1 = value.data;
+	})
+	.catch(err => {
+		console.error(err);
+	});
+const openAllocateDrawer = (title: string, userId: string) => {
+	// let v3: UserGroup.ResUserGroupRolesList[] = [];
+	if (title === "分配用户组角色") {
+		getUserRoleIdList({ userId: userId })
+			.then(value => {
+				let params = {
+					title,
+					userId,
+					modelData: value.data,
+					rowData: v1,
+					apiUrl: alocateUserRole,
+					getTableList: proTable.value.getTableList
+				};
+				userGroupRoleListDrawerRef.value.acceptParams(params);
+			})
+			.catch(err => {
+				console.error(err);
+			});
+	}
 };
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();

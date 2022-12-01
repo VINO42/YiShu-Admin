@@ -64,13 +64,13 @@ const acceptParams = (params: DrawerProps): void => {
 	drawerData.value = params;
 	drawerVisible.value = true;
 };
-
 // 提交数据（新增/编辑）
 const ruleFormRef = ref<FormInstance>();
 
 const handleSubmit = async () => {
 	try {
 		let params = { userId: drawerData.value.userId, ids: drawerData.value.modelData };
+		console.log(params);
 		await drawerData.value.apiUrl!(params);
 		ElMessage.success({ message: `${drawerData.value.title}成功！` });
 		drawerVisible.value = false;

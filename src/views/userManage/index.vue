@@ -43,7 +43,7 @@
 				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组', scope.row.id)"
 					>分配用户组</el-button
 				>
-				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色', scope.row.id)">分配角色</el-button>
+				<!-- <el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色', scope.row.id)">分配角色</el-button> -->
 
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
@@ -82,11 +82,8 @@ import {
 	getUserStatus,
 	getUserGender,
 	alocateUserGroup,
-	alocateUserRole,
 	getAllocateUserGroupList,
-	getAllocateRoleList,
-	getUserGroupIdList,
-	getUserRoleIdList
+	getUserGroupIdList
 } from "@/api/modules/user";
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
@@ -235,48 +232,19 @@ getAllocateUserGroupList()
 	.catch(err => {
 		console.error(err);
 	});
-let v2: UserGroup.ResAllocateList[] = [];
-getAllocateRoleList()
-	.then(value => {
-		console.log(value.data);
-		v2 = value.data;
-	})
-	.catch(err => {
-		console.error(err);
-	});
-
-const openAllocateDrawer = (title: string, id: string) => {
-	let v3: UserGroup.ResUserGroupRolesList[] = [];
+const openAllocateDrawer = (title: string, userId: string) => {
+	// let v3: UserGroup.ResUserGroupRolesList[] = [];
 	if (title === "分配用户组") {
-		getUserGroupIdList({ userId: id })
+		getUserGroupIdList({ userId: userId })
 			.then(value => {
 				let params = {
 					title,
-					id,
+					userId,
 					modelData: value.data,
 					rowData: v1,
-					apiUrl: alocateUserGroup
+					apiUrl: alocateUserGroup,
+					getTableList: proTable.value.getTableList
 				};
-				// console.log("params:" + params._rowData.id);
-				userGroupListDrawerRef.value.acceptParams(params);
-			})
-			.catch(err => {
-				console.error(err);
-			});
-		console.log("111" + v3);
-	}
-
-	if (title === "分配角色") {
-		getUserRoleIdList({ userId: id })
-			.then(value => {
-				let params = {
-					title,
-					id,
-					modelData: value.data,
-					rowData: v2,
-					apiUrl: alocateUserRole
-				};
-				// console.log("params:" + params._rowData.id);
 				userGroupListDrawerRef.value.acceptParams(params);
 			})
 			.catch(err => {

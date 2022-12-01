@@ -66,7 +66,7 @@ class RequestHttp {
 				axiosCanceler.removePending(config);
 				tryHideFullScreenLoading();
 				// * 登陆失效（code == 599）
-				if (data.status == ResultEnum.NEED_LOGIN) {
+				if (data.status === ResultEnum.NEED_LOGIN) {
 					ElMessage.error(data.message);
 					globalStore.setToken("");
 					router.replace(LOGIN_URL);

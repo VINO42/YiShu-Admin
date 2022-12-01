@@ -56,7 +56,7 @@ export const getUserGender = () => {
 	return http.get<User.ResGender>(PORT1 + `/sysUser/gender`);
 };
 // * 分配用户组
-export const alocateUserGroup = (params: { id: string }) => {
+export const alocateUserGroup = (params: { id: string; ids: string[] }) => {
 	return http.post(PORT1 + `/sysUser/alocateUserGroup`, params, { headers: { noLoading: true } });
 };
 // * 分配用户角色
