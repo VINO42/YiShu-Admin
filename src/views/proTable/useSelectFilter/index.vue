@@ -163,13 +163,13 @@ const changeTreeFilter = (val: string[]) => {
 
 // 删除用户信息
 const deleteAccount = async (params: User.ResUserList) => {
-	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.username}】用户`);
+	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
 	proTable.value.getTableList();
 };
 
 // 重置用户密码
 const resetPass = async (params: User.ResUserList) => {
-	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.username}】用户密码`);
+	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.realName}】用户密码`);
 	proTable.value.getTableList();
 };
 

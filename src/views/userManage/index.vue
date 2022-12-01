@@ -64,7 +64,7 @@ import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
-import ProTable from "@/components/ProTable/index.vue";
+import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/userManage/UserDrawer.vue";
 import UserGroupListDrawer from "@/views/userManage/UserGroupListDrawer.vue";

@@ -60,7 +60,7 @@ import { UserGroup } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
-import ProTable from "@/components/ProTable/index.vue";
+import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserGroupDrawer from "@/views/userGroupManage/UserGroupDrawer.vue";
 import { getUserStatus } from "@/api/modules/common";
