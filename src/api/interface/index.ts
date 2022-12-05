@@ -156,7 +156,26 @@ export namespace Role {
 		userValue: number;
 	}
 }
-
+//权限组管理
+export namespace PermissionGroup {
+	export interface ReqGetPermissionGroupParams extends ReqPage {
+		permissionGroupName: string;
+		permissionGroupCode: string;
+		displayStatus: number;
+	}
+	export interface ResPermissionGroupList {
+		id: string;
+		permissionGroupName: string;
+		permissionGroupCode: string;
+		versionStamp: number;
+		displayStatus: number;
+		children?: ResPermissionGroupList[];
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
 // * 文件上传模块
 export namespace Upload {
 	export interface ResFileUrl {

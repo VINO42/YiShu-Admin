@@ -63,6 +63,10 @@ export const alocateUserGroup = (params: { id: string; ids: string[] }) => {
 export const alocateUserRole = (params: { id: string }) => {
 	return http.post(PORT1 + `/sysUser/alocateUserRole`, params, { headers: { noLoading: true } });
 };
+// * 给角色分配资源组
+export const alocatRolePermissionGroup = (params: { id: string }) => {
+	return http.post(PORT1 + `/sysUser/alocatRolePermissionGroup`, params, { headers: { noLoading: true } });
+};
 // * 获取所有的用户组列表
 export const getAllocateUserGroupList = () => {
 	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysUserGroup/getAllocateUserGroupList`, {
@@ -72,6 +76,18 @@ export const getAllocateUserGroupList = () => {
 // * 获取所有的用户角色列表
 export const getAllocateRoleList = () => {
 	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysRole/getAllocateUserRoleList`, {
+		headers: { noLoading: true }
+	});
+};
+// * 获取所有的用户角色列表
+export const getAllResourceList = () => {
+	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysResource/getAllocateUserRoleList`, {
+		headers: { noLoading: true }
+	});
+};
+// * 获取所有的用户角色列表
+export const getAllPermissionGroupList = () => {
+	return http.get<UserGroup.ResAllocateList[]>(PORT1 + `/sysPermissionGroup/getAllPermissionGroupList`, {
 		headers: { noLoading: true }
 	});
 };
@@ -85,6 +101,20 @@ export const getUserGroupIdList = (params: { userId: string }) => {
 // * 获取某个用户的用户组列表信息
 export const getUserRoleIdList = (params: { userId: string }) => {
 	return http.get<UserGroup.ResUserGroupRolesList[]>(PORT1 + `/sysUser/getUserRoleIdList`, params, {
+		headers: { noLoading: true }
+	});
+};
+
+// * 获取某个角色的资源列表信息
+export const getResourceIdList = (params: { userId: string }) => {
+	return http.get<UserGroup.ResUserGroupRolesList[]>(PORT1 + `/sysUser/getResourceIdList`, params, {
+		headers: { noLoading: true }
+	});
+};
+
+// * 获取某个角色的资源列表信息
+export const getRolePermissionGroupList = (params: { userId: string }) => {
+	return http.get<UserGroup.ResUserGroupRolesList[]>(PORT1 + `/sysUser/getRolePermissionGroupList`, params, {
 		headers: { noLoading: true }
 	});
 };
