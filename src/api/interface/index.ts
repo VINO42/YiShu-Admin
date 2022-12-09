@@ -176,6 +176,41 @@ export namespace PermissionGroup {
 		userValue: number;
 	}
 }
+//资源管理
+export namespace Resource {
+	export interface ReqGetResourceParams extends ReqPage {
+		name: string;
+		title: string;
+		displayStatus: number;
+	}
+	export interface ResResourceList {
+		id: string;
+		name: string;
+		title: string;
+		frontPath: string;
+		parentId: string;
+		url: string;
+		platformType: number;
+		type: number;
+		levelCode: number;
+		sort: number;
+		component: string;
+		icon: string;
+		isLink: boolean;
+		isHide: boolean;
+		isAffix: boolean;
+		isKeepalive: boolean;
+		redirect: string;
+		isFull: boolean;
+		versionStamp: number;
+		displayStatus: number;
+		children?: ResResourceList[];
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
 // * 文件上传模块
 export namespace Upload {
 	export interface ResFileUrl {

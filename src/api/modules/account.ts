@@ -8,7 +8,9 @@ import http from "@/api";
  */
 // * 获取账号列表
 export const getAccountList = (params: Account.ReqGetAccountParams) => {
-	return http.get<ResPage<Account.ResAccountList>>(PORT1 + `/sysAccount/page`, params);
+	return http.get<ResPage<Account.ResAccountList>>(PORT1 + `/sysAccount/page`, params, {
+		headers: { "content-type": "application/x-www-form-urlencoded" }
+	});
 };
 
 // * 新增账号
