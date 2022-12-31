@@ -8,10 +8,10 @@
 			:initParam="initParam"
 			:dataCallback="dataCallback"
 		>
-			<template #tableHeader="scope">
+			<template #tableHeader>
 				<!-- 表格 header 按钮 -->
 				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增权限组</el-button>
-				<el-button
+				<!-- <el-button
 					type="danger"
 					:icon="Delete"
 					plain
@@ -20,7 +20,7 @@
 					v-if="BUTTONS.batchDelete"
 				>
 					批量删除权限组
-				</el-button>
+				</el-button> -->
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
@@ -167,11 +167,11 @@ const changeStatus = async (row: PermissionGroup.ResPermissionGroupList) => {
 	proTable.value.getTableList();
 };
 // 批量删除用户信息
-const batchDelete = async (id: string[]) => {
-	await useHandleData(deletePermissionGroup, { id }, "删除所选角色信息");
-	proTable.value.clearSelection();
-	proTable.value.getTableList();
-};
+// const batchDelete = async (id: string[]) => {
+// 	await useHandleData(deletePermissionGroup, { id }, "删除所选角色信息");
+// 	proTable.value.clearSelection();
+// 	proTable.value.getTableList();
+// };
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();
 const openDrawer = (title: string, rowData: Partial<PermissionGroup.ResPermissionGroupList> = { permissionGroupName: "" }) => {

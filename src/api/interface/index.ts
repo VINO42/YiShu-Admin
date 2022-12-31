@@ -100,7 +100,9 @@ export namespace Account {
 		// createTime: string;
 		// status: string;
 		displayStatus: number;
+		accountType: number;
 		avatar: string;
+		passwd: string;
 		children?: ResAccountList[];
 	}
 	export interface ResStatus {

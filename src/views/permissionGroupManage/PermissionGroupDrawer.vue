@@ -1,5 +1,5 @@
 <template>
-	<el-drawer v-model="drawerVisible" :destroy-on-close="true" size="500px" :title="`${drawerData.title}角色`">
+	<el-drawer v-model="drawerVisible" :destroy-on-close="true" size="500px" :title="`${drawerData.title}权限组`">
 		<el-form
 			ref="ruleFormRef"
 			:rules="rules"

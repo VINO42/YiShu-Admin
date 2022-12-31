@@ -8,10 +8,10 @@
 			:initParam="initParam"
 			:dataCallback="dataCallback"
 		>
-			<template #tableHeader="scope">
+			<template #tableHeader>
 				<!-- 表格 header 按钮 -->
 				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增用户组</el-button>
-				<el-button
+				<!-- <el-button
 					type="danger"
 					:icon="Delete"
 					plain
@@ -20,7 +20,7 @@
 					v-if="BUTTONS.batchDelete"
 				>
 					批量删除用户组
-				</el-button>
+				</el-button> -->
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
@@ -162,11 +162,11 @@ const changeStatus = async (row: UserGroup.ResUserGroupList) => {
 	proTable.value.getTableList();
 };
 // 批量删除用户信息
-const batchDelete = async (id: string[]) => {
-	await useHandleData(deleteUserGroup, { id }, "删除所选用户组信息");
-	proTable.value.clearSelection();
-	proTable.value.getTableList();
-};
+// const batchDelete = async (id: string[]) => {
+// 	await useHandleData(deleteUserGroup, { id }, "删除所选用户组信息");
+// 	proTable.value.clearSelection();
+// 	proTable.value.getTableList();
+// };
 const userGroupRoleListDrawerRef = ref();
 
 let v1: UserGroup.ResAllocateList[] = [];

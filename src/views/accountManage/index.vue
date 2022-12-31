@@ -1,12 +1,12 @@
 <template>
 	<div class="table-box">
 		<ProTable ref="proTable" :columns="columns" :requestApi="getAccountList" :initParam="initParam" :dataCallback="dataCallback">
-			<!-- 表格 header 按钮 -->
-			<template #tableHeader="scope">
-				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增账号</el-button>
-				<el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加账号</el-button>
-				<el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出账号数据</el-button>
-				<el-button
+			<!-- 表格 header 按钮  #tableHeader="scope"-->
+			<template #tableHeader>
+				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增后台账号</el-button>
+				<!-- <el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加账号</el-button> -->
+				<!-- <el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出账号数据</el-button> -->
+				<!-- <el-button
 					type="danger"
 					:icon="Delete"
 					plain
@@ -15,7 +15,7 @@
 					v-if="BUTTONS.batchDelete"
 				>
 					批量删除账号
-				</el-button>
+				</el-button> -->
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
@@ -40,7 +40,7 @@
 			<template #operation="scope">
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
-				<el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
+				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deleteAccountInfo(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
@@ -54,23 +54,23 @@ import { ref, reactive } from "vue";
 import { Account } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
-import { useDownload } from "@/hooks/useDownload";
+// import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import AccountDrawer from "@/views/accountManage/AccountDrawer.vue";
-import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
+import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import {
 	getAccountList,
 	deleteAccount,
 	editAccount,
 	addAccount,
-	changeAccountStatus,
-	resetAccountPassWord,
-	exportAccountInfo,
-	BatchAddAccount
+	changeAccountStatus
+	// resetAccountPassWord
+	// exportAccountInfo,
+	// BatchAddAccount
 } from "@/api/modules/account";
-import { getUserStatus } from "@/api/modules/Common";
+import { getUserStatus, getAccountTypeEnum } from "@/api/modules/Common";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
@@ -102,7 +102,14 @@ const columns: Partial<ColumnProps>[] = [
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
 	{ prop: "mobile", label: "手机号", search: { el: "input" } },
 	{ prop: "unionId", label: "unionId", search: { el: "input" } },
-
+	{
+		prop: "accountType",
+		label: "账号类型",
+		sortable: true,
+		search: { el: "select" },
+		enum: getAccountTypeEnum,
+		fieldNames: { label: "description", value: "value" }
+	},
 	{
 		prop: "displayStatus",
 		label: "账号状态",
@@ -145,17 +152,17 @@ const deleteAccountInfo = async (params: Account.ResAccountList) => {
 };
 
 // 批量删除账号信息
-const batchDelete = async (id: string[]) => {
-	await useHandleData(deleteAccount, { id }, "删除所选账号信息");
-	proTable.value.clearSelection();
-	proTable.value.getTableList();
-};
+// const batchDelete = async (id: string[]) => {
+// 	await useHandleData(deleteAccount, { id }, "删除所选账号信息");
+// 	proTable.value.clearSelection();
+// 	proTable.value.getTableList();
+// };
 
 // 重置账号密码
-const resetPass = async (params: Account.ResAccountList) => {
-	await useHandleData(resetAccountPassWord, { id: params.id }, `重置【${params.mobile}】账号密码`);
-	proTable.value.getTableList();
-};
+// const resetPass = async (params: Account.ResAccountList) => {
+// 	await useHandleData(resetAccountPassWord, { id: params.id }, `重置【${params.mobile}】账号密码`);
+// 	proTable.value.getTableList();
+// };
 
 // 切换账号状态
 const changeStatus = async (row: Account.ResAccountList) => {
@@ -168,21 +175,21 @@ const changeStatus = async (row: Account.ResAccountList) => {
 };
 
 // 导出账号列表
-const downloadFile = async () => {
-	useDownload(exportAccountInfo, "账号列表", proTable.value.searchParam);
-};
+// const downloadFile = async () => {
+// 	useDownload(exportAccountInfo, "账号列表", proTable.value.searchParam);
+// };
 
 // 批量添加账号
 const dialogRef = ref();
-const batchAdd = () => {
-	let params = {
-		title: "账号",
-		tempApi: exportAccountInfo,
-		importApi: BatchAddAccount,
-		getTableList: proTable.value.getTableList
-	};
-	dialogRef.value.acceptParams(params);
-};
+// const batchAdd = () => {
+// 	let params = {
+// 		title: "账号",
+// 		tempApi: exportAccountInfo,
+// 		importApi: BatchAddAccount,
+// 		getTableList: proTable.value.getTableList
+// 	};
+// 	dialogRef.value.acceptParams(params);
+// };
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();

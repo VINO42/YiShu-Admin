@@ -9,7 +9,7 @@
 			label-suffix=" :"
 			:hide-required-asterisk="drawerData.isView"
 		>
-			<el-form-item label="用户头像" prop="avatar">
+			<!-- <el-form-item label="用户头像" prop="avatar">
 				<UploadImg
 					v-model:imageUrl="drawerData.rowData!.avatar"
 					:disabled="drawerData.isView"
@@ -19,7 +19,7 @@
 				>
 					<template #tip> 头像大小不能超过 3M </template>
 				</UploadImg>
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item label="账号手机号" prop="mobile">
 				<el-input v-model="drawerData.rowData!.mobile" placeholder="账号手机号" clearable></el-input>
 			</el-form-item>
@@ -28,6 +28,9 @@
 			</el-form-item>
 			<el-form-item label="昵称" prop="nickName">
 				<el-input v-model="drawerData.rowData!.nickName" placeholder="请填写昵称" clearable></el-input>
+			</el-form-item>
+			<el-form-item label="密码" prop="passwd">
+				<el-input v-model="drawerData.rowData!.passwd" placeholder="请填写密码" clearable></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
@@ -41,13 +44,14 @@
 import { Account } from "@/api/interface";
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
-import UploadImg from "@/components/UploadImg/index.vue";
+// import UploadImg from "@/components/UploadImg/index.vue";
 
 const rules = reactive({
-	avatar: [{ required: false, message: "请上传用户头像", trigger: "change" }],
+	// avatar: [{ required: false, message: "请上传用户头像", trigger: "change" }],
 	mobile: [{ required: true, message: "请填写账号手机号", trigger: "change" }],
 	unionId: [{ required: false, message: "请填写小程序唯一UnionId", trigger: "change" }],
-	nickName: [{ required: true, message: "请填写昵称", trigger: "change" }]
+	nickName: [{ required: true, message: "请填写昵称", trigger: "change" }],
+	passwd: [{ required: true, message: "请填写密码", trigger: "change" }]
 });
 
 interface DrawerProps {
@@ -88,9 +92,9 @@ const handleSubmit = () => {
 };
 
 // 公共校验方法（图片上传成功触发重新校验）
-const checkValidate = (val: string) => {
-	ruleFormRef.value!.validateField(val, () => {});
-};
+// const checkValidate = (val: string) => {
+// 	ruleFormRef.value!.validateField(val, () => {});
+// };
 
 defineExpose({
 	acceptParams

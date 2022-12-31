@@ -2,11 +2,11 @@
 	<div class="table-box">
 		<ProTable ref="proTable" :columns="columns" :requestApi="getUserList" :initParam="initParam" :dataCallback="dataCallback">
 			<!-- 表格 header 按钮 -->
-			<template #tableHeader="scope">
+			<template #tableHeader>
 				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增用户</el-button>
-				<el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加用户</el-button>
-				<el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出用户数据</el-button>
-				<el-button
+				<!-- <el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加用户</el-button> -->
+				<!-- <el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出用户数据</el-button> -->
+				<!-- <el-button
 					type="danger"
 					:icon="Delete"
 					plain
@@ -15,7 +15,7 @@
 					v-if="BUTTONS.batchDelete"
 				>
 					批量删除用户
-				</el-button>
+				</el-button> -->
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
@@ -46,7 +46,7 @@
 				<!-- <el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色', scope.row.id)">分配角色</el-button> -->
 
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
-				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
+				<!-- <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button> -->
 			</template>
 		</ProTable>
 		<UserDrawer ref="drawerRef" />
@@ -62,23 +62,23 @@ import { ElButton, ElSwitch, ElTag } from "element-plus";
 import { User, UserGroup } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
-import { useDownload } from "@/hooks/useDownload";
+// import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/userManage/UserDrawer.vue";
 import UserGroupListDrawer from "@/views/userManage/UserGroupListDrawer.vue";
 
-import { CirclePlus, Delete, EditPen, Download, Upload, View } from "@element-plus/icons-vue";
+import { CirclePlus, EditPen, View } from "@element-plus/icons-vue";
 import {
 	getUserList,
-	deleteUser,
+	// deleteUser,
 	editUser,
 	addUser,
 	changeUserStatus,
 	// resetUserPassWord,
-	exportUserInfo,
-	BatchAddUser,
+	// exportUserInfo,
+	// BatchAddUser,
 	getUserStatus,
 	getUserGender,
 	alocateUserGroup,
@@ -125,9 +125,9 @@ const columns: Partial<ColumnProps>[] = [
 		enum: getUserGender,
 		fieldNames: { label: "genderLabel", value: "genderValue" }
 	},
-	{ prop: "idCard", label: "身份证号", search: { el: "input" } },
+	// { prop: "idCard", label: "身份证号", search: { el: "input" } },
 	{ prop: "mobile", label: "手机号", search: { el: "input" } },
-	{ prop: "addr", label: "居住地址", search: { el: "input" } },
+	// { prop: "addr", label: "居住地址", search: { el: "input" } },
 	{
 		prop: "displayStatus",
 		label: "用户状态",
@@ -164,17 +164,17 @@ const columns: Partial<ColumnProps>[] = [
 ];
 
 // 删除用户信息
-const deleteAccount = async (params: User.ResUserList) => {
-	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
-	proTable.value.getTableList();
-};
+// const deleteAccount = async (params: User.ResUserList) => {
+// 	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
+// 	proTable.value.getTableList();
+// };
 
 // 批量删除用户信息
-const batchDelete = async (id: string[]) => {
-	await useHandleData(deleteUser, { id }, "删除所选用户信息");
-	proTable.value.clearSelection();
-	proTable.value.getTableList();
-};
+// const batchDelete = async (id: string[]) => {
+// 	await useHandleData(deleteUser, { id }, "删除所选用户信息");
+// 	proTable.value.clearSelection();
+// 	proTable.value.getTableList();
+// };
 
 // 重置用户密码
 // const resetPass = async (params: User.ResUserList) => {
@@ -193,21 +193,21 @@ const changeStatus = async (row: User.ResUserList) => {
 };
 
 // 导出用户列表
-const downloadFile = async () => {
-	useDownload(exportUserInfo, "用户列表", proTable.value.searchParam);
-};
+// const downloadFile = async () => {
+// 	useDownload(exportUserInfo, "用户列表", proTable.value.searchParam);
+// };
 
 // 批量添加用户
 const dialogRef = ref();
-const batchAdd = () => {
-	let params = {
-		title: "用户",
-		tempApi: exportUserInfo,
-		importApi: BatchAddUser,
-		getTableList: proTable.value.getTableList
-	};
-	dialogRef.value.acceptParams(params);
-};
+// const batchAdd = () => {
+// 	let params = {
+// 		title: "用户",
+// 		tempApi: exportUserInfo,
+// 		importApi: BatchAddUser,
+// 		getTableList: proTable.value.getTableList
+// 	};
+// 	dialogRef.value.acceptParams(params);
+// };
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();

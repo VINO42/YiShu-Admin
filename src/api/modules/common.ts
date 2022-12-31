@@ -5,12 +5,14 @@ import http from "@/api";
 
 // * 获取用户状态
 export const getUserStatus = () => {
-	return http.get<User.ResStatus>(PORT1 + `/sysUser/status`);
+	return http.get<User.ResStatus>(PORT1 + `/common/status`);
 };
-
+export const getAccountTypeEnum = () => {
+	return http.get<User.ResStatus>(PORT1 + `/common/getAccountTypeEnum`);
+};
 // * 获取用户性别字典
 export const getUserGender = () => {
-	return http.get<User.ResGender>(PORT1 + `/sysUser/gender`);
+	return http.get<User.ResGender>(PORT1 + `/common/gender`);
 };
 
 // * 获取用户部门列表

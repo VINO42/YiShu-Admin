@@ -48,12 +48,12 @@ export const exportUserInfo = (params: User.ReqGetUserParams) => {
 
 // * 获取用户状态
 export const getUserStatus = () => {
-	return http.get<User.ResStatus>(PORT1 + `/sysUser/status`);
+	return http.get<User.ResStatus>(PORT1 + `/common/status`);
 };
 
 // * 获取用户性别字典
 export const getUserGender = () => {
-	return http.get<User.ResGender>(PORT1 + `/sysUser/gender`);
+	return http.get<User.ResGender>(PORT1 + `/common/gender`);
 };
 // * 分配用户组
 export const alocateUserGroup = (params: { id: string; ids: string[] }) => {

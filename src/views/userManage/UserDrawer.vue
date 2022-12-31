@@ -9,7 +9,7 @@
 			label-suffix=" :"
 			:hide-required-asterisk="drawerData.isView"
 		>
-			<el-form-item label="用户头像" prop="avatar">
+			<!-- <el-form-item label="用户头像" prop="avatar">
 				<UploadImg
 					v-model:imageUrl="drawerData.rowData!.avatar"
 					:disabled="drawerData.isView"
@@ -19,7 +19,7 @@
 				>
 					<template #tip> 头像大小不能超过 3M </template>
 				</UploadImg>
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item label="用户姓名" prop="realName">
 				<el-input v-model="drawerData.rowData!.realName" placeholder="请填写用户姓名" clearable></el-input>
 			</el-form-item>
@@ -28,15 +28,15 @@
 					<el-option v-for="item in genderType" :key="item.value" :label="item.label" :value="item.value" />
 				</el-select>
 			</el-form-item>
-			<el-form-item label="身份证号" prop="idCard">
+			<!-- <el-form-item label="身份证号" prop="idCard">
 				<el-input v-model="drawerData.rowData!.idCard" placeholder="请填写身份证号" clearable></el-input>
-			</el-form-item>
+			</el-form-item> -->
 			<el-form-item label="手机号" prop="mobile">
 				<el-input v-model="drawerData.rowData!.mobile" placeholder="请填写手机号" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="居住地址" prop="addr">
+			<!-- <el-form-item label="居住地址" prop="addr">
 				<el-input v-model="drawerData.rowData!.addr" placeholder="请填写居住地址" clearable></el-input>
-			</el-form-item>
+			</el-form-item> -->
 		</el-form>
 		<template #footer>
 			<el-button @click="drawerVisible = false">取消</el-button>
@@ -50,15 +50,15 @@ import { User } from "@/api/interface";
 import { ref, reactive } from "vue";
 import { genderType } from "@/utils/serviceDict";
 import { ElMessage, FormInstance } from "element-plus";
-import UploadImg from "@/components/UploadImg/index.vue";
+// import UploadImg from "@/components/UploadImg/index.vue";
 
 const rules = reactive({
-	avatar: [{ required: false, message: "请上传用户头像", trigger: "change" }],
+	// avatar: [{ required: false, message: "请上传用户头像", trigger: "change" }],
 	username: [{ required: true, message: "请填写用户姓名", trigger: "change" }],
 	gender: [{ required: true, message: "请选择性别", trigger: "change" }],
-	idCard: [{ required: true, message: "请填写身份证号", trigger: "change" }],
-	mobile: [{ required: true, message: "请填写手机号", trigger: "change" }],
-	addr: [{ required: true, message: "请填写居住地址", trigger: "change" }]
+	// idCard: [{ required: true, message: "请填写身份证号", trigger: "change" }],
+	mobile: [{ required: true, message: "请填写手机号", trigger: "change" }]
+	// addr: [{ required: true, message: "请填写居住地址", trigger: "change" }]
 });
 
 interface DrawerProps {
@@ -99,9 +99,9 @@ const handleSubmit = () => {
 };
 
 // 公共校验方法（图片上传成功触发重新校验）
-const checkValidate = (val: string) => {
-	ruleFormRef.value!.validateField(val, () => {});
-};
+// const checkValidate = (val: string) => {
+// 	ruleFormRef.value!.validateField(val, () => {});
+// };
 
 defineExpose({
 	acceptParams
