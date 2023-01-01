@@ -138,6 +138,34 @@ export namespace UserGroup {
 		userValue: number;
 	}
 }
+//图书类别管理
+export namespace BookCategory {
+	export interface ReqGetBookCategoryParams extends ReqPage {
+		categoryName: string;
+		categoryCode: string;
+		displayStatus: number;
+	}
+	export interface ResBookCategoryList {
+		id: string;
+		categoryName: string;
+		categoryCode: string;
+		versionStamp: number;
+		displayStatus: number;
+		children?: ResBookCategoryList[];
+	}
+
+	export interface ResAllocateList {
+		id: string;
+		name: string;
+	}
+	export interface ResBookCategoryRolesList {
+		id: string;
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
 //角色管理
 export namespace Role {
 	export interface ReqGetRoleParams extends ReqPage {

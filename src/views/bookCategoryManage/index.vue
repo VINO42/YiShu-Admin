@@ -1,11 +1,16 @@
+<!-- eslint-disable vue/no-lone-template -->
 <template>
 	<div class="table-box">
-		<ProTable ref="proTable" :columns="columns" :requestApi="getAccountList" :initParam="initParam" :dataCallback="dataCallback">
-			<!-- 表格 header 按钮  #tableHeader="scope"-->
+		<ProTable
+			ref="proTable"
+			:columns="columns"
+			:requestApi="getBookCategoryList"
+			:initParam="initParam"
+			:dataCallback="dataCallback"
+		>
 			<template #tableHeader>
-				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增后台账号</el-button>
-				<!-- <el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加账号</el-button> -->
-				<!-- <el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出账号数据</el-button> -->
+				<!-- 表格 header 按钮 -->
+				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增图书类别</el-button>
 				<!-- <el-button
 					type="danger"
 					:icon="Delete"
@@ -14,14 +19,14 @@
 					@click="batchDelete(scope.selectedListIds)"
 					v-if="BUTTONS.batchDelete"
 				>
-					批量删除账号
+					批量删除用户组
 				</el-button> -->
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
 				{{ scope.row }}
 			</template>
-			<!-- 账号状态 slot -->
+			<!-- 用户状态 slot -->
 			<template #displayStatus="scope">
 				<!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所以使用 click 方法（暂时只能这样解决） -->
 				<el-switch
@@ -41,36 +46,33 @@
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
-				<el-button type="primary" link :icon="Delete" @click="deleteAccountInfo(scope.row)">删除</el-button>
+
+				<el-button type="primary" link :icon="Delete" @click="deleteBookCategoryConst(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
-		<AccountDrawer ref="drawerRef" />
+		<BookCategoryDrawer ref="drawerRef" />
 		<ImportExcel ref="dialogRef" />
 	</div>
 </template>
 
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from "vue";
-import { Account } from "@/api/interface";
+import { BookCategory } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
-// import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
-import AccountDrawer from "@/views/accountManage/AccountDrawer.vue";
+import BookCategoryDrawer from "@/views/bookCategoryManage/BookCategoryDrawer.vue";
+import { getUserStatus } from "@/api/modules/common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import {
-	getAccountList,
-	deleteAccount,
-	editAccount,
-	addAccount,
-	changeAccountStatus
-	// resetAccountPassWord
-	// exportAccountInfo,
-	// BatchAddAccount
-} from "@/api/modules/account";
-import { getUserStatus, getAccountTypeEnum } from "@/api/modules/Common";
+	getBookCategoryList,
+	deleteBookCategory,
+	editBookCategory,
+	addBookCategory,
+	changeBookCategoryStatus
+} from "@/api/modules/bookCategory";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
@@ -93,26 +95,20 @@ const dataCallback = (data: any) => {
 // 页面按钮权限
 const { BUTTONS } = useAuthButtons();
 
+// 自定义渲染头部(使用tsx语法)
+
 // 表格配置项
 const columns: Partial<ColumnProps>[] = [
 	{ type: "selection", width: 80, fixed: "left" },
 	{ type: "index", label: "#", width: 80 },
 	{ type: "expand", label: "Expand", width: 100 },
-	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面账号状态也同理
+	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面用户状态也同理
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
-	{ prop: "mobile", label: "手机号", search: { el: "input" } },
-	{ prop: "unionId", label: "unionId", search: { el: "input" } },
-	{
-		prop: "accountType",
-		label: "账号类型",
-		sortable: true,
-		search: { el: "select" },
-		enum: getAccountTypeEnum,
-		fieldNames: { label: "description", value: "value" }
-	},
+	{ prop: "categoryName", label: "图书类别名称", search: { el: "input" } },
+	{ prop: "categoryCode", label: "图书类别编码", search: { el: "input" } },
 	{
 		prop: "displayStatus",
-		label: "账号状态",
+		label: "状态",
 		sortable: true,
 		search: { el: "select" },
 		enum: getUserStatus,
@@ -145,60 +141,42 @@ const columns: Partial<ColumnProps>[] = [
 	{ prop: "operation", label: "操作", width: 330, fixed: "right" }
 ];
 
-// 删除账号信息
-const deleteAccountInfo = async (params: Account.ResAccountList) => {
-	await useHandleData(deleteAccount, { id: [params.id] }, `删除【${params.mobile}】账号`);
+// 删除用户组信息
+const deleteBookCategoryConst = async (params: BookCategory.ResBookCategoryList) => {
+	await useHandleData(deleteBookCategory, { id: [params.id] }, `删除【${params.categoryName}】图书类别`);
 	proTable.value.getTableList();
 };
 
-// 批量删除账号信息
+// 重置用户密码
+// const resetPass = async (params: User.ResUserList) => {
+// 	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.realName}】用户密码`);
+// 	proTable.value.getTableList();
+// };
+
+// 切换用户状态
+const changeStatus = async (row: BookCategory.ResBookCategoryList) => {
+	await useHandleData(
+		changeBookCategoryStatus,
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		`切换【${row.categoryName}】图书类别状态`
+	);
+	proTable.value.getTableList();
+};
+// 批量删除用户信息
 // const batchDelete = async (id: string[]) => {
-// 	await useHandleData(deleteAccount, { id }, "删除所选账号信息");
+// 	await useHandleData(deleteBookCategory, { id }, "删除所选用户组信息");
 // 	proTable.value.clearSelection();
 // 	proTable.value.getTableList();
 // };
 
-// 重置账号密码
-// const resetPass = async (params: Account.ResAccountList) => {
-// 	await useHandleData(resetAccountPassWord, { id: params.id }, `重置【${params.mobile}】账号密码`);
-// 	proTable.value.getTableList();
-// };
-
-// 切换账号状态
-const changeStatus = async (row: Account.ResAccountList) => {
-	await useHandleData(
-		changeAccountStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
-		`切换【${row.mobile}】账号状态`
-	);
-	proTable.value.getTableList();
-};
-
-// 导出账号列表
-// const downloadFile = async () => {
-// 	useDownload(exportAccountInfo, "账号列表", proTable.value.searchParam);
-// };
-
-// 批量添加账号
-const dialogRef = ref();
-// const batchAdd = () => {
-// 	let params = {
-// 		title: "账号",
-// 		tempApi: exportAccountInfo,
-// 		importApi: BatchAddAccount,
-// 		getTableList: proTable.value.getTableList
-// 	};
-// 	dialogRef.value.acceptParams(params);
-// };
-
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();
-const openDrawer = (title: string, rowData: Partial<Account.ResAccountList> = { avatar: "" }) => {
+const openDrawer = (title: string, rowData: Partial<BookCategory.ResBookCategoryList> = { categoryName: "" }) => {
 	let params = {
 		title,
 		rowData: { ...rowData },
 		isView: title === "查看",
-		apiUrl: title === "新增" ? addAccount : title === "编辑" ? editAccount : "",
+		apiUrl: title === "新增" ? addBookCategory : title === "编辑" ? editBookCategory : "",
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);

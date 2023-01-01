@@ -33,7 +33,7 @@
 					v-if="BUTTONS.status"
 				/>
 				<el-tag :type="scope.row.displayStatus === 1 ? 'success' : 'danger'" v-else>
-					{{ scope.row.displayStatus === 1 ? "启用" : "禁用" }}
+					{{ scope.row.displayStatus === 1 ? "启用" : scope.row.displayStatus == 2 ? "删除" : "禁用" }}
 				</el-tag>
 			</template>
 			<!-- 表格操作 -->

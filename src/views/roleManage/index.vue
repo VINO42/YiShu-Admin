@@ -25,14 +25,14 @@
 				<!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所以使用 click 方法（暂时只能这样解决） -->
 				<el-switch
 					:model-value="scope.row.displayStatus"
-					:active-text="scope.row.displayStatus == 1 ? '启用' : '禁用'"
+					:active-text="scope.row.displayStatus === 1 ? '启用' : scope.row.displayStatus == 2 ? '删除' : '禁用'"
 					:active-value="1"
 					:inactive-value="0"
 					@click="changeStatus(scope.row)"
 					v-if="BUTTONS.status"
 				/>
 				<el-tag :type="scope.row.displayStatus === 1 ? 'success' : 'danger'" v-else>
-					{{ scope.row.displayStatus === 1 ? "启用" : "禁用" }}
+					{{ scope.row.displayStatus === 1 ? "启用" : scope.row.displayStatus == 2 ? "删除" : "禁用" }}
 				</el-tag>
 			</template>
 			<!-- 表格操作 -->
