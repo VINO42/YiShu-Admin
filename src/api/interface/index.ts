@@ -166,6 +166,46 @@ export namespace BookCategory {
 		userValue: number;
 	}
 }
+
+//图书管理
+export namespace Book {
+	export interface ReqGetBookParams extends ReqPage {
+		title: string;
+		bookIntro: string;
+		pic: string;
+		translator: string;
+		author: string;
+		isbn: string;
+		publish: string;
+		doubanUrl: string;
+	}
+	export interface ResBookList {
+		id: string;
+		title: string;
+		bookIntro: string;
+		pic: string;
+		translator: string;
+		author: string;
+		isbn: string;
+		publish: string;
+		doubanUrl: string;
+		versionStamp: number;
+		displayStatus: number;
+		children?: ResBookList[];
+	}
+
+	export interface ResAllocateList {
+		id: string;
+		name: string;
+	}
+	export interface ResBookCategoryList {
+		id: string;
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
 //角色管理
 export namespace Role {
 	export interface ReqGetRoleParams extends ReqPage {
