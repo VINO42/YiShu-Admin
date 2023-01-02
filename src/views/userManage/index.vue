@@ -38,7 +38,7 @@
 			</template>
 			<!-- 表格操作 -->
 			<template #operation="scope">
-				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
+				<el-button type="primary" link :icon="View" @click="openViewDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组', scope.row.id)"
 					>分配用户组</el-button
@@ -50,6 +50,7 @@
 			</template>
 		</ProTable>
 		<UserDrawer ref="drawerRef" />
+		<UserViewDrawer ref="userViewDrawer" />
 		<UserGroupListDrawer ref="userGroupListDrawerRef" />
 
 		<ImportExcel ref="dialogRef" />
@@ -68,7 +69,7 @@ import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import UserDrawer from "@/views/userManage/UserDrawer.vue";
 import UserGroupListDrawer from "@/views/userManage/UserGroupListDrawer.vue";
-
+import UserViewDrawer from "@/views/userManage/UserViewDrawer.vue";
 import { CirclePlus, EditPen, View } from "@element-plus/icons-vue";
 import {
 	getUserList,
@@ -212,6 +213,7 @@ const dialogRef = ref();
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();
 const userGroupListDrawerRef = ref();
+const userViewDrawer = ref();
 
 const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar: "" }) => {
 	let params = {
@@ -222,6 +224,16 @@ const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);
+};
+const openViewDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar: "" }) => {
+	let params = {
+		title,
+		rowData: { ...rowData },
+		isView: title === "查看",
+		apiUrl: title === "新增" ? addUser : title === "编辑" ? editUser : "",
+		getTableList: proTable.value.getTableList
+	};
+	userViewDrawer.value.acceptParams(params);
 };
 let v1: UserGroup.ResAllocateList[] = [];
 getAllocateUserGroupList()

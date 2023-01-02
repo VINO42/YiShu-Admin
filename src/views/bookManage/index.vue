@@ -37,7 +37,7 @@
 			</template>
 			<!-- 表格操作 -->
 			<template #operation="scope">
-				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
+				<el-button type="primary" link :icon="View" @click="openViewDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配图书类别', scope.row.id)"
@@ -47,6 +47,8 @@
 			</template>
 		</ProTable>
 		<BookDrawer ref="drawerRef" />
+		<BookViewDrawer ref="bookViewDrawer" />
+
 		<BookBookCategoryDrawer ref="bookBookCategoryDrawer" />
 		<!-- <ImportExcel ref="dialogRef" /> -->
 	</div>
@@ -61,6 +63,7 @@ import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 // import ImportExcel from "@/components/ImportExcel/index.vue";
 import BookDrawer from "@/views/bookManage/BookDrawer.vue";
+import BookViewDrawer from "@/views/bookManage/BookViewDrawer.vue";
 import BookBookCategoryDrawer from "@/views/bookManage/BookBookCategoryDrawer.vue";
 import { getUserStatus } from "@/api/modules/common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
@@ -217,5 +220,16 @@ const openDrawer = (title: string, rowData: Partial<Book.ResBookList> = { title:
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);
+};
+const bookViewDrawer = ref();
+const openViewDrawer = (title: string, rowData: Partial<Book.ResBookList> = { title: "" }) => {
+	let params = {
+		title,
+		rowData: { ...rowData },
+		isView: title === "查看",
+		apiUrl: title === "新增" ? addBook : title === "编辑" ? editBook : "",
+		getTableList: proTable.value.getTableList
+	};
+	bookViewDrawer.value.acceptParams(params);
 };
 </script>

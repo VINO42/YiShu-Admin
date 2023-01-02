@@ -37,7 +37,7 @@
 			</template>
 			<!-- 表格操作 -->
 			<template #operation="scope">
-				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
+				<el-button type="primary" link :icon="View" @click="openViewDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deleteResourceConst(scope.row)">删除</el-button>
@@ -45,6 +45,7 @@
 			</template>
 		</ProTable>
 		<ResourceDrawer ref="drawerRef" />
+		<ResourceViewDrawer ref="resourceViewDrawer" />
 		<!-- <ResourceResourceListDrawer ref="ResourceResourceListDrawerRef" /> -->
 		<ImportExcel ref="dialogRef" />
 	</div>
@@ -60,6 +61,8 @@ import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import ResourceDrawer from "@/views/resourceManage/ResourceDrawer.vue";
+import ResourceViewDrawer from "@/views/resourceManage/ResourceViewDrawer.vue";
+
 // import ResourceResourceListDrawer from "@/views/ResourceManage/ResourceResourceListDrawer.vue";
 import { getUserStatus } from "@/api/modules/common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
@@ -186,6 +189,18 @@ const openDrawer = (title: string, rowData: Partial<Resource.ResResourceList> = 
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);
+};
+
+const resourceViewDrawer = ref();
+const openViewDrawer = (title: string, rowData: Partial<Resource.ResResourceList> = { name: "" }) => {
+	let params = {
+		title,
+		rowData: { ...rowData },
+		isView: title === "查看",
+		apiUrl: title === "新增" ? addResource : title === "编辑" ? editResource : "",
+		getTableList: proTable.value.getTableList
+	};
+	resourceViewDrawer.value.acceptParams(params);
 };
 // let v1: UserGroup.ResAllocateList[] = [];
 // getAllResourceList()

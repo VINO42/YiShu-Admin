@@ -38,13 +38,15 @@
 			</template>
 			<!-- 表格操作 -->
 			<template #operation="scope">
-				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
+				<el-button type="primary" link :icon="View" @click="openViewDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deleteAccountInfo(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
 		<AccountDrawer ref="drawerRef" />
+		<AccountViewDrawer ref="accountViewDrawer" />
+
 		<ImportExcel ref="dialogRef" />
 	</div>
 </template>
@@ -59,6 +61,8 @@ import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import AccountDrawer from "@/views/accountManage/AccountDrawer.vue";
+import AccountViewDrawer from "@/views/accountManage/AccountViewDrawer.vue";
+
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import {
 	getAccountList,
@@ -202,5 +206,16 @@ const openDrawer = (title: string, rowData: Partial<Account.ResAccountList> = { 
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);
+};
+const accountViewDrawer = ref();
+const openViewDrawer = (title: string, rowData: Partial<Account.ResAccountList> = { avatar: "" }) => {
+	let params = {
+		title,
+		rowData: { ...rowData },
+		isView: title === "查看",
+		apiUrl: title === "新增" ? addAccount : title === "编辑" ? editAccount : "",
+		getTableList: proTable.value.getTableList
+	};
+	accountViewDrawer.value.acceptParams(params);
 };
 </script>
