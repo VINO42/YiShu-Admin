@@ -59,6 +59,7 @@ export namespace User {
 		idCard: string;
 		mobile: string;
 		addr: string;
+		versionStamp: number;
 		// createTime: string;
 		// status: string;
 		displayStatus: number;
@@ -97,6 +98,7 @@ export namespace Account {
 		unionId: string;
 		nickName: number;
 		userId: string;
+		versionStamp: number;
 		// createTime: string;
 		// status: string;
 		displayStatus: number;

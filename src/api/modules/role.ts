@@ -17,7 +17,7 @@ export const addRole = (params: { id: string }) => {
 };
 
 // * 编辑角色
-export const editRole = (params: { id: string }) => {
+export const editRole = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysRole/update`, params, { headers: { noLoading: true } });
 };
 
@@ -27,6 +27,6 @@ export const deleteRole = (params: { id: string[] }) => {
 };
 
 // * 切换角色状态
-export const changeRoleStatus = (params: { id: string; displayStatus: number }) => {
+export const changeRoleStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysRole/update`, params);
 };

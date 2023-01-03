@@ -150,7 +150,7 @@ const deleteRoleConst = async (params: Role.ResRoleList) => {
 const changeStatus = async (row: Role.ResRoleList) => {
 	await useHandleData(
 		changeRoleStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.roleName}】角色状态`
 	);
 	proTable.value.getTableList();

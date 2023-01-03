@@ -157,7 +157,7 @@ const deleteBookCategoryConst = async (params: BookCategory.ResBookCategoryList)
 const changeStatus = async (row: BookCategory.ResBookCategoryList) => {
 	await useHandleData(
 		changeBookCategoryStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.categoryName}】图书类别状态`
 	);
 	proTable.value.getTableList();

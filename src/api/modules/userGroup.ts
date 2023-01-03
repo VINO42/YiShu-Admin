@@ -17,7 +17,7 @@ export const addUserGroup = (params: { id: string }) => {
 };
 
 // * 编辑用户组
-export const editUserGroup = (params: { id: string }) => {
+export const editUserGroup = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysUserGroup/update`, params, { headers: { noLoading: true } });
 };
 
@@ -27,6 +27,6 @@ export const deleteUserGroup = (params: { id: string[] }) => {
 };
 
 // * 切换用户组状态
-export const changeUserGroupStatus = (params: { id: string; displayStatus: number }) => {
+export const changeUserGroupStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysUserGroup/update`, params);
 };

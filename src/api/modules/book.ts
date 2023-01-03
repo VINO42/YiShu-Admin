@@ -17,7 +17,7 @@ export const addBook = (params: { id: string }) => {
 };
 
 // * 编辑图书
-export const editBook = (params: { id: string }) => {
+export const editBook = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/book/update`, params, { headers: { noLoading: true } });
 };
 
@@ -27,7 +27,7 @@ export const deleteBook = (params: { id: string[] }) => {
 };
 
 // * 切换图书状态
-export const changeBookStatus = (params: { id: string; displayStatus: number }) => {
+export const changeBookStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/book/update`, params);
 };
 

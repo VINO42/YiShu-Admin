@@ -17,7 +17,7 @@ export const addResource = (params: { id: string }) => {
 };
 
 // * 编辑权限组
-export const editResource = (params: { id: string }) => {
+export const editResource = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysResource/update`, params, { headers: { noLoading: true } });
 };
 
@@ -27,6 +27,6 @@ export const deleteResource = (params: { id: string[] }) => {
 };
 
 // * 切换权限组状态
-export const changeResourceStatus = (params: { id: string; displayStatus: number }) => {
+export const changeResourceStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysResource/update`, params);
 };

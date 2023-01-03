@@ -172,7 +172,7 @@ const deleteAccountInfo = async (params: Account.ResAccountList) => {
 const changeStatus = async (row: Account.ResAccountList) => {
 	await useHandleData(
 		changeAccountStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.mobile}】账号状态`
 	);
 	proTable.value.getTableList();

@@ -167,7 +167,7 @@ const deleteResourceConst = async (params: Resource.ResResourceList) => {
 const changeStatus = async (row: Resource.ResResourceList) => {
 	await useHandleData(
 		changeResourceStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.name}】资源状态`
 	);
 	proTable.value.getTableList();

@@ -145,9 +145,9 @@ const columns: Partial<ColumnProps>[] = [
 	{ prop: "operation", label: "操作", width: 330, fixed: "right" }
 ];
 
-// 删除角色信息
+// 删除权限组信息
 const deletePermissionGroupConst = async (params: PermissionGroup.ResPermissionGroupList) => {
-	await useHandleData(deletePermissionGroup, { id: [params.id] }, `删除【${params.permissionGroupName}】角色`);
+	await useHandleData(deletePermissionGroup, { id: [params.id] }, `删除【${params.permissionGroupName}】权限组`);
 	proTable.value.getTableList();
 };
 
@@ -161,14 +161,14 @@ const deletePermissionGroupConst = async (params: PermissionGroup.ResPermissionG
 const changeStatus = async (row: PermissionGroup.ResPermissionGroupList) => {
 	await useHandleData(
 		changePermissionGroupStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
-		`切换【${row.permissionGroupName}】角色状态`
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
+		`切换【${row.permissionGroupName}】权限组状态`
 	);
 	proTable.value.getTableList();
 };
 // 批量删除用户信息
 // const batchDelete = async (id: string[]) => {
-// 	await useHandleData(deletePermissionGroup, { id }, "删除所选角色信息");
+// 	await useHandleData(deletePermissionGroup, { id }, "删除所选权限组信息");
 // 	proTable.value.clearSelection();
 // 	proTable.value.getTableList();
 // };
@@ -197,7 +197,7 @@ const openDrawer = (title: string, rowData: Partial<PermissionGroup.ResPermissio
 
 // const openAllocateDrawer = (title: string, userId: string) => {
 // 	// let v3: UserGroup.ResUserGroupPermissionGroupsList[] = [];
-// 	if (title === "分配角色权限组") {
+// 	if (title === "分配权限组权限组") {
 // 		getPermissionGroupPermissionGroupList({ userId: userId })
 // 			.then(value => {
 // 				let params = {

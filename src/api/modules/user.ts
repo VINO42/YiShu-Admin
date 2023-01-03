@@ -22,7 +22,7 @@ export const BatchAddUser = (params: FormData) => {
 };
 
 // * 编辑用户
-export const editUser = (params: { id: string }) => {
+export const editUser = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysUser/update`, params, { headers: { noLoading: true } });
 };
 
@@ -32,7 +32,7 @@ export const deleteUser = (params: { id: string[] }) => {
 };
 
 // * 切换用户状态
-export const changeUserStatus = (params: { id: string; displayStatus: number }) => {
+export const changeUserStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysUser/update`, params);
 };
 

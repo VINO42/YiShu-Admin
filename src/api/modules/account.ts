@@ -24,7 +24,7 @@ export const BatchAddAccount = (params: FormData) => {
 };
 
 // * 编辑账号
-export const editAccount = (params: { id: string }) => {
+export const editAccount = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysAccount/update`, params, { headers: { noLoading: true } });
 };
 
@@ -34,7 +34,7 @@ export const deleteAccount = (params: { id: string[] }) => {
 };
 
 // * 切换账号状态
-export const changeAccountStatus = (params: { id: string; displayStatus: number }) => {
+export const changeAccountStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysAccount/update`, params);
 };
 

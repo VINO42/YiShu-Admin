@@ -187,7 +187,7 @@ const columns: Partial<ColumnProps>[] = [
 const changeStatus = async (row: User.ResUserList) => {
 	await useHandleData(
 		changeUserStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.realName}】用户状态`
 	);
 	proTable.value.getTableList();

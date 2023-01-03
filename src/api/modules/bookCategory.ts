@@ -17,7 +17,7 @@ export const addBookCategory = (params: { id: string }) => {
 };
 
 // * 编辑图书类别
-export const editBookCategory = (params: { id: string }) => {
+export const editBookCategory = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/bookCategory/update`, params, { headers: { noLoading: true } });
 };
 
@@ -27,6 +27,6 @@ export const deleteBookCategory = (params: { id: string[] }) => {
 };
 
 // * 切换图书类别状态
-export const changeBookCategoryStatus = (params: { id: string; displayStatus: number }) => {
+export const changeBookCategoryStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/bookCategory/update`, params);
 };

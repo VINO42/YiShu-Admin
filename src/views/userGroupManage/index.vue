@@ -160,7 +160,7 @@ const deleteUserGroupConst = async (params: UserGroup.ResUserGroupList) => {
 const changeStatus = async (row: UserGroup.ResUserGroupList) => {
 	await useHandleData(
 		changeUserGroupStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.userGroupName}】用户组状态`
 	);
 	proTable.value.getTableList();

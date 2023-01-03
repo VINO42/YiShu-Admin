@@ -17,7 +17,7 @@ export const addPermissionGroup = (params: { id: string }) => {
 };
 
 // * 编辑权限组
-export const editPermissionGroup = (params: { id: string }) => {
+export const editPermissionGroup = (params: { id: string; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysPermissionGroup/update`, params, { headers: { noLoading: true } });
 };
 
@@ -27,6 +27,6 @@ export const deletePermissionGroup = (params: { id: string[] }) => {
 };
 
 // * 切换权限组状态
-export const changePermissionGroupStatus = (params: { id: string; displayStatus: number }) => {
+export const changePermissionGroupStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysPermissionGroup/update`, params);
 };

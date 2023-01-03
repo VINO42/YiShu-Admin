@@ -167,7 +167,7 @@ const deleteBookConst = async (params: Book.ResBookList) => {
 const changeStatus = async (row: Book.ResBookList) => {
 	await useHandleData(
 		changeBookStatus,
-		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.title}】图书状态`
 	);
 	proTable.value.getTableList();
