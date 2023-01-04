@@ -64,7 +64,7 @@ import ResourceDrawer from "@/views/resourceManage/ResourceDrawer.vue";
 import ResourceViewDrawer from "@/views/resourceManage/ResourceViewDrawer.vue";
 
 // import ResourceResourceListDrawer from "@/views/ResourceManage/ResourceResourceListDrawer.vue";
-import { getUserStatus } from "@/api/modules/common";
+import { getUserStatus, getResourceTypes, getPlatformTypes } from "@/api/modules/common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import { getResourceList, deleteResource, editResource, addResource, changeResourceStatus } from "@/api/modules/Resource";
 // import { getAllResourceList, getResourceResourceList, alocatResourceResource } from "@/api/modules/user";
@@ -103,8 +103,22 @@ const columns: Partial<ColumnProps>[] = [
 	{ prop: "title", label: "描述", search: { el: "input" } },
 	{ prop: "frontPath", label: "前端路径", search: { el: "input" } },
 	{ prop: "url", label: "资源接口路径", search: { el: "input" } },
-	{ prop: "platformType", label: "资源客户端类型" },
-	{ prop: "type", label: "资源类型" },
+	{
+		prop: "platformType",
+		label: "平台类型",
+		sortable: true,
+		search: { el: "select" },
+		enum: getPlatformTypes,
+		fieldNames: { label: "description", value: "code" }
+	},
+	{
+		prop: "resourceType",
+		label: "资源类型",
+		sortable: true,
+		search: { el: "select" },
+		enum: getResourceTypes,
+		fieldNames: { label: "description", value: "code" }
+	},
 	{ prop: "levelCode", label: "资源级别" },
 	{ prop: "sort", label: "资源排序" },
 	{ prop: "component", label: "资源组件" },

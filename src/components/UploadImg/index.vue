@@ -86,7 +86,7 @@ const handleHttpUpload = async (options: UploadRequestOptions) => {
 	formData.append("file", options.file);
 	try {
 		const { data } = await uploadImg(formData);
-		emit("update:imageUrl", data.fileUrl);
+		emit("update:imageUrl", String(data));
 		// 调用 el-form 内部的校验方法
 		formItemContext?.prop && formContext?.validateField([formItemContext.prop as string]);
 		emit("check-validate");

@@ -21,6 +21,17 @@
 			<template #expand="scope">
 				{{ scope.row }}
 			</template>
+			<!-- 头像 slot -->
+			<template #avatar="scope">
+				<el-image
+					style="width: 50px; height: 50px"
+					lazy
+					:src="scope.row.avatar"
+					:preview-src-list="[scope.row.avatar]"
+					:initial-index="0"
+					fit="contain"
+				/>
+			</template>
 			<!-- 账号状态 slot -->
 			<template #displayStatus="scope">
 				<!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所以使用 click 方法（暂时只能这样解决） -->
@@ -106,6 +117,8 @@ const columns: Partial<ColumnProps>[] = [
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
 	{ prop: "mobile", label: "手机号", search: { el: "input" } },
 	{ prop: "unionId", label: "unionId", search: { el: "input" } },
+	{ prop: "avatar", label: "头像" },
+
 	{
 		prop: "accountType",
 		label: "账号类型",
@@ -197,7 +210,7 @@ const dialogRef = ref();
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();
-const openDrawer = (title: string, rowData: Partial<Account.ResAccountList> = { avatar: "" }) => {
+const openDrawer = (title: string, rowData: Partial<Account.ResAccountList> = {}) => {
 	let params = {
 		title,
 		rowData: { ...rowData },

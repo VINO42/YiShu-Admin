@@ -9,17 +9,15 @@
 			label-suffix=" :"
 			:hide-required-asterisk="drawerData.isView"
 		>
-			<!-- <el-form-item label="用户头像" prop="avatar">
-				<UploadImg
-					v-model:imageUrl="drawerData.rowData!.avatar"
-					:disabled="drawerData.isView"
-					:file-size="3"
-					:upload-style="{ width: '130px', height: '130px' }"
-					@check-validate="checkValidate('avatar')"
-				>
-					<template #tip> 头像大小不能超过 3M </template>
-				</UploadImg>
-			</el-form-item> -->
+			<el-form-item label="头像" prop="avatar">
+				<el-image
+					style="width: 100px; height: 100px"
+					:src="drawerData.rowData!.avatar"
+					:preview-src-list="[drawerData.rowData!.avatar]"
+					:initial-index="0"
+					fit="cover"
+				/>
+			</el-form-item>
 			<el-form-item label="账号手机号" prop="mobile">
 				<el-input v-model="drawerData.rowData!.mobile" placeholder="" clearable></el-input>
 			</el-form-item>

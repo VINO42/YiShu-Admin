@@ -70,6 +70,10 @@ export namespace User {
 		userLabel: string;
 		userValue: number;
 	}
+	export interface ResEnum {
+		description: string;
+		code: number;
+	}
 	export interface ResGender {
 		genderLabel: string;
 		genderValue: number;
@@ -286,6 +290,8 @@ export namespace Resource {
 // * 文件上传模块
 export namespace Upload {
 	export interface ResFileUrl {
-		fileUrl: string;
+		status: number;
+		message: string;
+		data: string;
 	}
 }

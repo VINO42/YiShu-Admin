@@ -9,17 +9,17 @@
 			label-suffix=" :"
 			:hide-required-asterisk="drawerData.isView"
 		>
-			<!-- <el-form-item label="用户头像" prop="avatar">
+			<el-form-item label="头像" prop="avatar">
 				<UploadImg
 					v-model:imageUrl="drawerData.rowData!.avatar"
 					:disabled="drawerData.isView"
 					:file-size="3"
-					:upload-style="{ width: '130px', height: '130px' }"
+					:upload-style="{ width: '150px', height: '150px' }"
 					@check-validate="checkValidate('avatar')"
 				>
 					<template #tip> 头像大小不能超过 3M </template>
 				</UploadImg>
-			</el-form-item> -->
+			</el-form-item>
 			<el-form-item label="账号手机号" prop="mobile">
 				<el-input v-model="drawerData.rowData!.mobile" placeholder="账号手机号" clearable></el-input>
 			</el-form-item>
@@ -44,7 +44,7 @@
 import { Account } from "@/api/interface";
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
-// import UploadImg from "@/components/UploadImg/index.vue";
+import UploadImg from "@/components/UploadImg/index.vue";
 
 const rules = reactive({
 	// avatar: [{ required: false, message: "请上传用户头像", trigger: "change" }],
@@ -92,9 +92,9 @@ const handleSubmit = () => {
 };
 
 // 公共校验方法（图片上传成功触发重新校验）
-// const checkValidate = (val: string) => {
-// 	ruleFormRef.value!.validateField(val, () => {});
-// };
+const checkValidate = (val: string) => {
+	ruleFormRef.value!.validateField(val, () => {});
+};
 
 defineExpose({
 	acceptParams
