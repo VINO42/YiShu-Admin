@@ -9,9 +9,19 @@
 			label-suffix=" :"
 			:hide-required-asterisk="drawerData.isView"
 		>
+			<el-form-item label="封面图" prop="pic">
+				<el-image
+					style="width: 100px; height: 100px"
+					:src="drawerData.rowData!.pic"
+					:preview-src-list="[drawerData.rowData!.pic]"
+					:initial-index="0"
+					fit="cover"
+				/>
+			</el-form-item>
 			<el-form-item label="图书名称" prop="title">
 				<el-input v-model="drawerData.rowData!.title" placeholder="" clearable></el-input>
 			</el-form-item>
+
 			<el-form-item label="图书简介" prop="bookIntro">
 				<el-input v-model="drawerData.rowData!.bookIntro" placeholder="" clearable></el-input>
 			</el-form-item>

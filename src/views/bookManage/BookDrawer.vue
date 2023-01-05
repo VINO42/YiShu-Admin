@@ -9,6 +9,17 @@
 			label-suffix=" :"
 			:hide-required-asterisk="drawerData.isView"
 		>
+			<el-form-item label="头像" prop="pic">
+				<UploadImg
+					v-model:imageUrl="drawerData.rowData!.pic"
+					:disabled="drawerData.isView"
+					:file-size="3"
+					:upload-style="{ width: '150px', height: '150px' }"
+					@check-validate="checkValidate('pic')"
+				>
+					<template #tip> 头像大小不能超过 3M </template>
+				</UploadImg>
+			</el-form-item>
 			<el-form-item label="图书名称" prop="title">
 				<el-input v-model="drawerData.rowData!.title" placeholder="请填写图书名称" clearable></el-input>
 			</el-form-item>
@@ -43,6 +54,7 @@
 import { Book } from "@/api/interface";
 import { ref, reactive } from "vue";
 import { ElMessage, FormInstance } from "element-plus";
+import UploadImg from "@/components/UploadImg/index.vue";
 
 const rules = reactive({
 	title: [{ required: true, message: "请填写图书名称", trigger: "change" }],
@@ -89,4 +101,8 @@ const handleSubmit = () => {
 defineExpose({
 	acceptParams
 });
+// 公共校验方法（图片上传成功触发重新校验）
+const checkValidate = (val: string) => {
+	ruleFormRef.value!.validateField(val, () => {});
+};
 </script>
