@@ -212,6 +212,43 @@ export namespace Book {
 		userValue: number;
 	}
 }
+
+//图书发布管理
+export namespace BookPublish {
+	export interface ReqGetBookPublishParams extends ReqPage {
+		id: string;
+		nickName: string;
+		unionId: string;
+		avatar: string;
+		title: string;
+		pic: string;
+		isbn: string;
+		contract: string;
+		remark: string;
+		bookId: number;
+		publishDate: string;
+	}
+	export interface ResBookPublishList {
+		id: string;
+		nickName: string;
+		unionId: string;
+		avatar: string;
+		title: string;
+		pic: string;
+		isbn: string;
+		contract: string;
+		remark: string;
+		bookId: number;
+		publishDate: string;
+		versionStamp: number;
+		displayStatus: number;
+		children?: ResBookPublishList[];
+	}
+	export interface ResStatus {
+		userLabel: string;
+		userValue: number;
+	}
+}
 //角色管理
 export namespace Role {
 	export interface ReqGetRoleParams extends ReqPage {
