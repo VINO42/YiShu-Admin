@@ -11,6 +11,7 @@
 			>
 			&nbsp; <h style="color: #5c6b77">&</h> &nbsp;
 			<a style="color: #0033cc" href="https://github.com/vino42" target="_blank">Vino42</a>
+			&nbsp;&nbsp; <h style="color: #5c6b77">北邮网院毕业设计作品</h>
 		</div>
 	</el-config-provider>
 </template>
