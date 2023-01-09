@@ -1,6 +1,17 @@
 <template>
 	<el-config-provider :locale="i18nLocale" :button="config" :size="assemblySize">
-		<router-view></router-view>
+		<router-view> </router-view>
+		<div class="footer flx-center">
+			<a target="_blank" style="color: #0033cc" href="https://beian.miit.gov.cn/">京ICP备2023000447号</a>
+			&nbsp; <h style="color: #5c6b77">©2023-至今 YiShu-Admin By</h> &nbsp;<a
+				style="color: #0033cc"
+				href="https://github.com/HalseySpicy"
+				target="_blank"
+				>Geeker Technology</a
+			>
+			&nbsp; <h style="color: #5c6b77">&</h> &nbsp;
+			<a style="color: #0033cc" href="https://github.com/vino42" target="_blank">Vino42</a>
+		</div>
 	</el-config-provider>
 </template>
 
@@ -31,3 +42,6 @@ const i18nLocale = computed(() => {
 // 配置全局组件大小 (small/default(medium)/large)
 const assemblySize = computed((): string => globalStore.assemblySize);
 </script>
+<style scoped lang="scss">
+@import "./layouts/components/Footer/index.scss";
+</style>
