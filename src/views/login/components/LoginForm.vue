@@ -11,7 +11,7 @@
 			<el-input
 				type="password"
 				v-model="loginForm.password"
-				placeholder="密码：123456!Aa"
+				placeholder="密码：123456!AaBBB"
 				show-password
 				autocomplete="new-password"
 			>
