@@ -7,9 +7,9 @@
 			<a
 				target="_blank"
 				href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11011102002266"
-				style="display: inline-block; height: 20px; line-height: 20px; text-decoration: none"
+				style="display: inline-block; height: 20px; line-height: 20px; color: #0033cc; text-decoration: none"
 				><img src="./assets/images/gongan.png" style="float: left" />
-				<p style="float: left; height: 20px; margin: 0 0 0 5px; line-height: 20px; color: #939393">
+				<p style="float: left; height: 20px; margin: 0 0 0 5px; line-height: 20px; color: #0033cc">
 					京公网安备 11011102002266号
 				</p></a
 			>
