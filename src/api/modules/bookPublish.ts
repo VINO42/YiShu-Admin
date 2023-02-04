@@ -20,9 +20,9 @@ export const editBookPublish = (params: { id: string; versionStamp: number }) =>
 };
 
 // * 删除图书
-// export const deleteBookPublish = (params: { id: string[] }) => {
-// 	return http.post(PORT1 + `/userPublishBookRecord/delete`, params);
-// };
+export const deleteBookPublish = (params: { id: string[] }) => {
+	return http.post(PORT1 + `/userPublishBookRecord/delete`, params);
+};
 
 // * 切换图书状态
 // export const changeBookPublishStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {

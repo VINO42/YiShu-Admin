@@ -63,6 +63,7 @@
 			<!-- 表格操作 -->
 			<template #operation="scope">
 				<el-button type="primary" link :icon="View" @click="openViewDrawer('查看', scope.row)">查看</el-button>
+				<el-button type="primary" link :icon="Delete" @click="deleteBookPublishAction(scope.row)">删除</el-button>
 			</template>
 		</ProTable>
 		<BookPublishViewDrawer ref="bookPublishViewDrawer" />
@@ -75,11 +76,12 @@ import { ref, reactive } from "vue";
 import { BookPublish } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
+import { useHandleData } from "@/hooks/useHandleData";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import BookPublishViewDrawer from "@/views/userPublishRecordManage/BookPublishViewDrawer.vue";
 import { getUserStatus } from "@/api/modules/common";
-import { View } from "@element-plus/icons-vue";
-import { getBookPublishList, addBookPublish, editBookPublish } from "@/api/modules/bookPublish";
+import { View, Delete } from "@element-plus/icons-vue";
+import { getBookPublishList, addBookPublish, editBookPublish, deleteBookPublish } from "@/api/modules/bookPublish";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
@@ -182,5 +184,10 @@ const openViewDrawer = (title: string, rowData: Partial<BookPublish.ResBookPubli
 		getTableList: proTable.value.getTableList
 	};
 	bookPublishViewDrawer.value.acceptParams(params);
+};
+// 删除账号信息
+const deleteBookPublishAction = async (params: BookPublish.ResBookPublishList) => {
+	await useHandleData(deleteBookPublish, { id: [params.id] }, `删除【${params.title}】发布`);
+	proTable.value.getTableList();
 };
 </script>
