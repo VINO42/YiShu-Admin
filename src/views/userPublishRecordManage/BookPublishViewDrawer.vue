@@ -21,7 +21,7 @@
 			<el-form-item label="用户昵称" prop="nickName">
 				<el-input v-model="drawerData.rowData!.nickName" placeholder="" clearable></el-input>
 			</el-form-item>
-			<el-form-item label="微信唯一标识" prop="unionId">
+			<el-form-item label="UnionId" prop="unionId">
 				<el-input v-model="drawerData.rowData!.unionId" placeholder="" clearable></el-input>
 			</el-form-item>
 			<el-form-item label="图书id" prop="bookId">
