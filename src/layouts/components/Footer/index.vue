@@ -1,9 +1,9 @@
-<template>
+<!-- <template>
 	<div class="footer flx-center">
-		<a href="https://github.com/HalseySpicy" target="_blank"> 2022 © Geeker-Admin By Geeker Technology. </a>
+		<a href="https://github.com/HalseySpicy" target="_blank"> 2022 © YiShu-Admin By Geeker Technology & Vino42. </a>
 	</div>
-</template>
+</template> -->
 
-<style scoped lang="scss">
+<!-- <style scoped lang="scss">
 @import "./index.scss";
-</style>
+</style> -->

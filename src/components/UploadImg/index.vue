@@ -5,7 +5,7 @@
 			:id="id"
 			:class="['upload']"
 			:multiple="false"
-			:disabled="disabled"
+			:disabled="self_disabled"
 			:show-file-list="false"
 			:http-request="handleHttpUpload"
 			:before-upload="beforeUpload"
@@ -18,7 +18,7 @@
 			<img v-if="imageUrl" :src="imageUrl" class="upload-image" />
 			<el-icon v-else class="upload-icon"><Plus /></el-icon>
 			<div v-if="imageUrl" class="upload-handle" @click.stop>
-				<div class="handle-icon" @click="editImg" v-if="!disabled">
+				<div class="handle-icon" @click="editImg" v-if="!self_disabled">
 					<el-icon><Edit /></el-icon>
 					<span>编辑</span>
 				</div>
@@ -26,7 +26,7 @@
 					<el-icon><ZoomIn /></el-icon>
 					<span>查看</span>
 				</div>
-				<div class="handle-icon" @click="deleteImg" v-if="!disabled">
+				<div class="handle-icon" @click="deleteImg" v-if="!self_disabled">
 					<el-icon><Delete /></el-icon>
 					<span>删除</span>
 				</div>
@@ -39,11 +39,11 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="uploadImg">
-import { ref } from "vue";
-import { ElNotification } from "element-plus";
+<script setup lang="ts" name="UploadImg">
+import { ref, CSSProperties, computed, inject } from "vue";
 import { Plus } from "@element-plus/icons-vue";
 import { uploadImg } from "@/api/modules/upload";
+import { ElNotification, formContextKey, formItemContextKey } from "element-plus";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
 
 interface UploadFileProps {
@@ -52,7 +52,7 @@ interface UploadFileProps {
 	drag?: boolean; // 是否支持拖拽上传 ==> 非必传（默认为true）
 	disabled?: boolean; // 是否禁用上传组件 ==> 非必传（默认为false）
 	fileSize?: number; // 单个文件大小限制 ==> 非必传（默认为 5M）
-	uploadStyle?: { [key: string]: any }; // 上传组件样式 ==> 非必传
+	uploadStyle?: CSSProperties; // 上传组件样式 ==> 非必传
 }
 // 接受父组件参数
 const props = withDefaults(defineProps<UploadFileProps>(), {
@@ -61,6 +61,15 @@ const props = withDefaults(defineProps<UploadFileProps>(), {
 	disabled: false,
 	fileSize: 5,
 	uploadStyle: () => ({ width: "175px", height: "175px" })
+});
+
+// 获取 el-form 组件上下文
+const formContext = inject(formContextKey, void 0);
+// 获取 el-form-item 组件上下文
+const formItemContext = inject(formItemContextKey, void 0);
+// 判断是否禁用上传和删除
+const self_disabled = computed(() => {
+	return props.disabled || formContext?.disabled;
 });
 
 /**
@@ -77,7 +86,9 @@ const handleHttpUpload = async (options: UploadRequestOptions) => {
 	formData.append("file", options.file);
 	try {
 		const { data } = await uploadImg(formData);
-		emit("update:imageUrl", data.fileUrl);
+		emit("update:imageUrl", String(data));
+		// 调用 el-form 内部的校验方法
+		formItemContext?.prop && formContext?.validateField([formItemContext.prop as string]);
 		emit("check-validate");
 	} catch (error) {
 		options.onError(error as any);

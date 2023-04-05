@@ -2,11 +2,11 @@
 	<div class="table-box">
 		<ProTable ref="proTable" :columns="columns" :requestApi="getUserList" :initParam="initParam" :dataCallback="dataCallback">
 			<!-- 表格 header 按钮 -->
-			<template #tableHeader="scope">
+			<template #tableHeader>
 				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增用户</el-button>
-				<el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加用户</el-button>
-				<el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出用户数据</el-button>
-				<el-button
+				<!-- <el-button type="primary" :icon="Upload" plain @click="batchAdd" v-if="BUTTONS.batchAdd">批量添加用户</el-button> -->
+				<!-- <el-button type="primary" :icon="Download" plain @click="downloadFile" v-if="BUTTONS.export">导出用户数据</el-button> -->
+				<!-- <el-button
 					type="danger"
 					:icon="Delete"
 					plain
@@ -15,14 +15,14 @@
 					v-if="BUTTONS.batchDelete"
 				>
 					批量删除用户
-				</el-button>
+				</el-button> -->
 			</template>
 			<!-- Expand -->
 			<template #expand="scope">
 				{{ scope.row }}
 			</template>
 			<!-- 用户状态 slot -->
-			<template #status="scope">
+			<template #displayStatus="scope">
 				<!-- 如果插槽的值为 el-switch，第一次加载会默认触发 switch 的 @change 方法，所以使用 click 方法（暂时只能这样解决） -->
 				<el-switch
 					:model-value="scope.row.displayStatus"
@@ -33,47 +33,59 @@
 					v-if="BUTTONS.status"
 				/>
 				<el-tag :type="scope.row.displayStatus === 1 ? 'success' : 'danger'" v-else>
-					{{ scope.row.displayStatus === 1 ? "启用" : "禁用" }}
+					{{ scope.row.displayStatus === 1 ? "启用" : scope.row.displayStatus == 2 ? "删除" : "禁用" }}
 				</el-tag>
 			</template>
 			<!-- 表格操作 -->
 			<template #operation="scope">
-				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
+				<el-button type="primary" link :icon="View" @click="openViewDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
-				<el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button>
-				<el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配用户组', scope.row.id)"
+					>分配用户组</el-button
+				>
+				<!-- <el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配角色', scope.row.id)">分配角色</el-button> -->
+
+				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
+				<!-- <el-button type="primary" link :icon="Delete" @click="deleteAccount(scope.row)">删除</el-button> -->
 			</template>
 		</ProTable>
 		<UserDrawer ref="drawerRef" />
+		<UserViewDrawer ref="userViewDrawer" />
+		<UserGroupListDrawer ref="userGroupListDrawerRef" />
+
 		<ImportExcel ref="dialogRef" />
 	</div>
 </template>
 
 <script setup lang="tsx" name="useComponent">
 import { ref, reactive } from "vue";
-import { ElMessage } from "element-plus";
-import { User } from "@/api/interface";
+import { ElButton, ElSwitch, ElTag } from "element-plus";
+import { User, UserGroup } from "@/api/interface";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { useHandleData } from "@/hooks/useHandleData";
-import { useDownload } from "@/hooks/useDownload";
+// import { useDownload } from "@/hooks/useDownload";
 import { useAuthButtons } from "@/hooks/useAuthButtons";
-import ProTable from "@/components/ProTable/index.vue";
+import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
-import UserDrawer from "@/views/proTable/components/UserDrawer.vue";
-import { CirclePlus, Delete, EditPen, Download, Upload, View, Refresh } from "@element-plus/icons-vue";
+import UserDrawer from "@/views/userManage/UserDrawer.vue";
+import UserGroupListDrawer from "@/views/userManage/UserGroupListDrawer.vue";
+import UserViewDrawer from "@/views/userManage/UserViewDrawer.vue";
+import { CirclePlus, EditPen, View } from "@element-plus/icons-vue";
 import {
 	getUserList,
-	deleteUser,
+	// deleteUser,
 	editUser,
 	addUser,
 	changeUserStatus,
-	resetUserPassWord,
-	exportUserInfo,
-	BatchAddUser,
+	// resetUserPassWord,
+	// exportUserInfo,
+	// BatchAddUser,
 	getUserStatus,
-	getUserGender
+	getUserGender,
+	alocateUserGroup,
+	getAllocateUserGroupList,
+	getUserGroupIdList
 } from "@/api/modules/user";
-
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
 const proTable = ref();
 
@@ -96,25 +108,13 @@ const dataCallback = (data: any) => {
 const { BUTTONS } = useAuthButtons();
 
 // 自定义渲染头部(使用tsx语法)
-const renderHeader = (scope: any) => {
-	return (
-		<el-button
-			type="primary"
-			onClick={() => {
-				ElMessage.success("我是自定义表头");
-			}}
-		>
-			{scope.row.label}
-		</el-button>
-	);
-};
 
 // 表格配置项
 const columns: Partial<ColumnProps>[] = [
 	{ type: "selection", width: 80, fixed: "left" },
 	{ type: "index", label: "#", width: 80 },
 	{ type: "expand", label: "Expand", width: 100 },
-	{ prop: "realName", label: "用户姓名", width: 130, search: true, renderHeader },
+	{ prop: "realName", label: "用户姓名", width: 130, search: { el: "input" } },
 	// 😄 enum 可以直接是数组对象，也可以是请求方法(proTable 内部会执行获取 enum 的这个方法)，下面用户状态也同理
 	// 😄 enum 为请求方法时，后台返回的数组对象 key 值不是 label 和 value 的情况，可以在 searchProps 中指定 label 和 value 的 key 值
 	{
@@ -122,22 +122,20 @@ const columns: Partial<ColumnProps>[] = [
 		label: "性别",
 		width: 120,
 		sortable: true,
-		search: true,
-		searchType: "select",
+		search: { el: "select" },
 		enum: getUserGender,
-		searchProps: { label: "genderLabel", value: "genderValue" }
+		fieldNames: { label: "genderLabel", value: "genderValue" }
 	},
-	{ prop: "idCard", label: "身份证号", search: true },
-	{ prop: "email", label: "邮箱", search: true },
-	{ prop: "address", label: "居住地址", search: true },
+	// { prop: "idCard", label: "身份证号", search: { el: "input" } },
+	{ prop: "mobile", label: "手机号", search: { el: "input" } },
+	// { prop: "addr", label: "居住地址", search: { el: "input" } },
 	{
 		prop: "displayStatus",
 		label: "用户状态",
 		sortable: true,
-		search: true,
-		searchType: "select",
+		search: { el: "select" },
 		enum: getUserStatus,
-		searchProps: { label: "userLabel", value: "userStatus" }
+		fieldNames: { label: "desc", value: "status" }
 	},
 	{
 		prop: "createTime",
@@ -151,57 +149,72 @@ const columns: Partial<ColumnProps>[] = [
 		// },
 		// searchInitParam: ["2022-09-30 00:00:00", "2022-09-20 23:59:59"]
 	},
-	{ prop: "operation", label: "操作", width: 330, fixed: "right", renderHeader }
+	{
+		prop: "updateTime",
+		label: "更新时间",
+		width: 200,
+		sortable: true
+		// search: true,
+		// searchType: "datetimerange",
+		// searchProps: {
+		// 	disabledDate: (time: Date) => time.getTime() < Date.now() - 8.64e7
+		// },
+		// searchInitParam: ["2022-09-30 00:00:00", "2022-09-20 23:59:59"]
+	},
+	{ prop: "operation", label: "操作", fixed: "right", width: 330 }
 ];
 
 // 删除用户信息
-const deleteAccount = async (params: User.ResUserList) => {
-	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
-	proTable.value.getTableList();
-};
+// const deleteAccount = async (params: User.ResUserList) => {
+// 	await useHandleData(deleteUser, { id: [params.id] }, `删除【${params.realName}】用户`);
+// 	proTable.value.getTableList();
+// };
 
 // 批量删除用户信息
-const batchDelete = async (id: string[]) => {
-	await useHandleData(deleteUser, { id }, "删除所选用户信息");
-	proTable.value.clearSelection();
-	proTable.value.getTableList();
-};
+// const batchDelete = async (id: string[]) => {
+// 	await useHandleData(deleteUser, { id }, "删除所选用户信息");
+// 	proTable.value.clearSelection();
+// 	proTable.value.getTableList();
+// };
 
 // 重置用户密码
-const resetPass = async (params: User.ResUserList) => {
-	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.realName}】用户密码`);
-	proTable.value.getTableList();
-};
+// const resetPass = async (params: User.ResUserList) => {
+// 	await useHandleData(resetUserPassWord, { id: params.id }, `重置【${params.realName}】用户密码`);
+// 	proTable.value.getTableList();
+// };
 
 // 切换用户状态
 const changeStatus = async (row: User.ResUserList) => {
 	await useHandleData(
 		changeUserStatus,
-		{ id: row.id, status: row.displayStatus == 1 ? 0 : 1 },
+		{ id: row.id, displayStatus: row.displayStatus == 1 ? 0 : 1, versionStamp: row.versionStamp },
 		`切换【${row.realName}】用户状态`
 	);
 	proTable.value.getTableList();
 };
 
 // 导出用户列表
-const downloadFile = async () => {
-	useDownload(exportUserInfo, "用户列表", proTable.value.searchParam);
-};
+// const downloadFile = async () => {
+// 	useDownload(exportUserInfo, "用户列表", proTable.value.searchParam);
+// };
 
 // 批量添加用户
 const dialogRef = ref();
-const batchAdd = () => {
-	let params = {
-		title: "用户",
-		tempApi: exportUserInfo,
-		importApi: BatchAddUser,
-		getTableList: proTable.value.getTableList
-	};
-	dialogRef.value.acceptParams(params);
-};
+// const batchAdd = () => {
+// 	let params = {
+// 		title: "用户",
+// 		tempApi: exportUserInfo,
+// 		importApi: BatchAddUser,
+// 		getTableList: proTable.value.getTableList
+// 	};
+// 	dialogRef.value.acceptParams(params);
+// };
 
 // 打开 drawer(新增、查看、编辑)
 const drawerRef = ref();
+const userGroupListDrawerRef = ref();
+const userViewDrawer = ref();
+
 const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar: "" }) => {
 	let params = {
 		title,
@@ -211,5 +224,44 @@ const openDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar
 		getTableList: proTable.value.getTableList
 	};
 	drawerRef.value.acceptParams(params);
+};
+const openViewDrawer = (title: string, rowData: Partial<User.ResUserList> = { avatar: "" }) => {
+	let params = {
+		title,
+		rowData: { ...rowData },
+		isView: title === "查看",
+		apiUrl: title === "新增" ? addUser : title === "编辑" ? editUser : "",
+		getTableList: proTable.value.getTableList
+	};
+	userViewDrawer.value.acceptParams(params);
+};
+let v1: UserGroup.ResAllocateList[] = [];
+getAllocateUserGroupList()
+	.then(value => {
+		console.log(value.data);
+		v1 = value.data;
+	})
+	.catch(err => {
+		console.error(err);
+	});
+const openAllocateDrawer = (title: string, userId: string) => {
+	// let v3: UserGroup.ResUserGroupRolesList[] = [];
+	if (title === "分配用户组") {
+		getUserGroupIdList({ userId: userId })
+			.then(value => {
+				let params = {
+					title,
+					userId,
+					modelData: value.data,
+					rowData: v1,
+					apiUrl: alocateUserGroup,
+					getTableList: proTable.value.getTableList
+				};
+				userGroupListDrawerRef.value.acceptParams(params);
+			})
+			.catch(err => {
+				console.error(err);
+			});
+	}
 };
 </script>

@@ -1,7 +1,7 @@
 <template>
 	<el-dropdown trigger="click">
 		<div class="avatar">
-			<img src="@/assets/images/avatar.gif" alt="avatar" />
+			<img src="@/assets/images/user.jpg" alt="avatar" />
 		</div>
 		<template #dropdown>
 			<el-dropdown-menu>
@@ -31,6 +31,7 @@ import { LOGIN_URL } from "@/config/config";
 import { ElMessageBox, ElMessage } from "element-plus";
 import InfoDialog from "./InfoDialog.vue";
 import PasswordDialog from "./PasswordDialog.vue";
+import { loginOutApi } from "@/api/modules/login";
 
 const router = useRouter();
 const globalStore = GlobalStore();
@@ -41,14 +42,18 @@ const logout = () => {
 		confirmButtonText: "确定",
 		cancelButtonText: "取消",
 		type: "warning"
-	}).then(() => {
-		router.replace(LOGIN_URL);
-		globalStore.setToken("");
-		ElMessage({
-			type: "success",
-			message: "退出登录成功！"
+	})
+		.then(() => {
+			loginOutApi();
+		})
+		.then(() => {
+			router.replace(LOGIN_URL);
+			globalStore.setToken("");
+			ElMessage({
+				type: "success",
+				message: "退出登录成功！"
+			});
 		});
-	});
 };
 
 interface DialogExpose {

@@ -1,6 +1,28 @@
 <template>
 	<el-config-provider :locale="i18nLocale" :button="config" :size="assemblySize">
-		<router-view></router-view>
+		<router-view> </router-view>
+		<div class="footer flx-center">
+			<a target="_blank" style="color: #0033cc" href="https://beian.miit.gov.cn/">京ICP备2023000447号</a>
+			&nbsp; &nbsp;
+			<a
+				target="_blank"
+				href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11011102002266"
+				style="display: inline-block; height: 20px; line-height: 20px; color: #0033cc; text-decoration: none"
+				><img src="./assets/images/gongan.png" style="float: left" />
+				<p style="float: left; height: 20px; margin: 0 0 0 5px; line-height: 20px; color: #0033cc">
+					京公网安备 11011102002266号
+				</p></a
+			>
+			&nbsp; &nbsp; <h style="color: #5c6b77">©2023-至今 YiShu-Admin By</h> &nbsp;<a
+				style="color: #0033cc"
+				href="https://github.com/HalseySpicy"
+				target="_blank"
+				>Geeker Technology</a
+			>
+			&nbsp; <h style="color: #5c6b77">&</h> &nbsp;
+			<a style="color: #0033cc" href="https://github.com/vino42" target="_blank">Vino42</a>
+			&nbsp;&nbsp; <h style="color: #5c6b77">北邮网院毕业设计作品</h>
+		</div>
 	</el-config-provider>
 </template>
 
@@ -31,5 +53,6 @@ const i18nLocale = computed(() => {
 // 配置全局组件大小 (small/default(medium)/large)
 const assemblySize = computed((): string => globalStore.assemblySize);
 </script>
-
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+@import "./layouts/components/Footer/index.scss";
+</style>

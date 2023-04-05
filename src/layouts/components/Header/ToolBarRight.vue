@@ -5,10 +5,10 @@
 			<Language id="language" />
 			<SearchMenu id="searchMenu" />
 			<ThemeSetting id="themeSetting" />
-			<Message id="message" />
+			<!-- <Message id="message" /> -->
 			<Fullscreen id="fullscreen" />
 		</div>
-		<span class="username">Geeker</span>
+		<span class="username">Yishu</span>
 		<Avatar />
 	</div>
 </template>
@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import SearchMenu from "./components/SearchMenu.vue";
 import Fullscreen from "./components/Fullscreen.vue";
-import Message from "./components/Message.vue";
+// import Message from "./components/Message.vue";
 import Language from "./components/Language.vue";
 import ThemeSetting from "./components/ThemeSetting.vue";
 import AssemblySize from "./components/AssemblySize.vue";

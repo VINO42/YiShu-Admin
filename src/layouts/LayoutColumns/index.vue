@@ -1,6 +1,6 @@
 <!-- 分栏布局 -->
 <template>
-	<el-container class="layout-columns">
+	<el-container class="layout">
 		<div class="aside-split">
 			<div class="logo flx-center">
 				<img src="@/assets/images/logo.svg" alt="logo" />
@@ -24,7 +24,7 @@
 		</div>
 		<el-aside :class="{ 'not-aside': !subMenu.length }" :style="{ width: isCollapse ? '65px' : '210px' }">
 			<div class="logo flx-center">
-				<span v-show="subMenu.length">{{ isCollapse ? "G" : "Geeker Admin" }}</span>
+				<span v-show="subMenu.length">{{ isCollapse ? "G" : "YiShu Adminn" }}</span>
 			</div>
 			<el-scrollbar>
 				<el-menu
@@ -67,12 +67,11 @@ const globalStore = GlobalStore();
 const activeMenu = computed(() => route.path);
 const menuList = computed(() => authStore.showMenuListGet);
 const isCollapse = computed(() => globalStore.themeConfig.isCollapse);
-const watchData = computed(() => [menuList, route]);
 
 const subMenu = ref<Menu.MenuOptions[]>([]);
 const splitActive = ref<string>("");
 watch(
-	() => watchData,
+	() => [menuList, route],
 	() => {
 		// 当前路由存在 tabs 白名单中 || 当前菜单没有数据直接 return
 		if (TABS_WHITE_LIST.includes(route.path) || !menuList.value.length) return;
