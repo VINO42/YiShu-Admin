@@ -30,3 +30,16 @@ export const deletePermissionGroup = (params: { id: string[] }) => {
 export const changePermissionGroupStatus = (params: { id: string; displayStatus: number; versionStamp: number }) => {
 	return http.post(PORT1 + `/sysPermissionGroup/update`, params);
 };
+// * 获取所有的权限树
+export const getAllPerms = () => {
+	return http.get(PORT1 + `/sysPermission/tree`);
+};
+// * 获取所有的权限树
+export const getPermsbyGroupId = (params: { groupId: number }) => {
+	return http.get(PORT1 + `/sysPermission/getPermsbyGroupId`, params);
+};
+
+// * 更新权限组的权限列表 TODO
+export const updatePermsGroupPerms = (params: { groupId: number }) => {
+	return http.post(PORT1 + `/sysPermission/updatePermsGroupPerms`, params);
+};

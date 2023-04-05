@@ -72,7 +72,7 @@ import UserGroupDrawer from "@/views/userGroupManage/UserGroupDrawer.vue";
 import UserGroupViewDrawer from "@/views/userGroupManage/UserGroupViewDrawer.vue";
 
 import UserGroupRoleListDrawer from "@/views/userGroupManage/UserGroupRoleListDrawer.vue";
-import { getUserStatus } from "@/api/modules/common";
+import { getUserStatus } from "@/api/modules/Common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import { alocateUserRole, getAllocateRoleList, getUserRoleIdList } from "@/api/modules/user";
 import { getUserGroupList, deleteUserGroup, editUserGroup, addUserGroup, changeUserGroupStatus } from "@/api/modules/userGroup";

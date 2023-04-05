@@ -62,7 +62,7 @@ import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import RoleDrawer from "@/views/roleManage/RoleDrawer.vue";
 import RoleResourceListDrawer from "@/views/roleManage/RoleResourceListDrawer.vue";
-import { getUserStatus } from "@/api/modules/common";
+import { getUserStatus } from "@/api/modules/Common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import { getRoleList, deleteRole, editRole, addRole, changeRoleStatus } from "@/api/modules/role";
 import { getAllPermissionGroupList, getRolePermissionGroupList, alocatRolePermissionGroup } from "@/api/modules/user";

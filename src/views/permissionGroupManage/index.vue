@@ -11,6 +11,7 @@
 			<template #tableHeader>
 				<!-- 表格 header 按钮 -->
 				<el-button type="primary" :icon="CirclePlus" @click="openDrawer('新增')" v-if="BUTTONS.add">新增权限组</el-button>
+
 				<!-- <el-button
 					type="danger"
 					:icon="Delete"
@@ -45,12 +46,16 @@
 			<template #operation="scope">
 				<el-button type="primary" link :icon="View" @click="openDrawer('查看', scope.row)">查看</el-button>
 				<el-button type="primary" link :icon="EditPen" @click="openDrawer('编辑', scope.row)">编辑</el-button>
+				<el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配权限', scope.row.id)">分配权限</el-button>
+
 				<!-- <el-button type="primary" link :icon="Refresh" @click="resetPass(scope.row)">重置密码</el-button> -->
 				<el-button type="primary" link :icon="Delete" @click="deletePermissionGroupConst(scope.row)">删除</el-button>
 				<!-- <el-button type="primary" link :icon="EditPen" @click="openAllocateDrawer('分配资源', scope.row.id)">分配资源</el-button> -->
 			</template>
 		</ProTable>
 		<PermissionGroupDrawer ref="drawerRef" />
+		<AllocatePermissionDrawer ref="allocatePermissionDrawerRef" />
+
 		<!-- <PermissionGroupResourceListDrawer ref="PermissionGroupResourceListDrawerRef" /> -->
 		<ImportExcel ref="dialogRef" />
 	</div>
@@ -66,16 +71,19 @@ import { useAuthButtons } from "@/hooks/useAuthButtons";
 import ProTable from "@/components/YiShuProTable/index.vue";
 import ImportExcel from "@/components/ImportExcel/index.vue";
 import PermissionGroupDrawer from "@/views/permissionGroupManage/PermissionGroupDrawer.vue";
+import AllocatePermissionDrawer from "@/views/permissionGroupManage/AllocatePermissionDrawer.vue";
 // import PermissionGroupResourceListDrawer from "@/views/PermissionGroupManage/PermissionGroupResourceListDrawer.vue";
-import { getUserStatus } from "@/api/modules/common";
+import { getUserStatus } from "@/api/modules/Common";
 import { CirclePlus, Delete, EditPen, View } from "@element-plus/icons-vue";
 import {
 	getPermissionGroupList,
 	deletePermissionGroup,
 	editPermissionGroup,
 	addPermissionGroup,
-	changePermissionGroupStatus
-} from "@/api/modules/PermissionGroup";
+	changePermissionGroupStatus,
+	getPermsbyGroupId,
+	updatePermsGroupPerms
+} from "@/api/modules/permissionGroup";
 // import { getAllPermissionGroupList, getPermissionGroupPermissionGroupList, alocatPermissionGroupPermissionGroup } from "@/api/modules/user";
 
 // 获取 ProTable 元素，调用其获取刷新数据方法（还能获取到当前查询参数，方便导出携带参数）
@@ -184,35 +192,27 @@ const openDrawer = (title: string, rowData: Partial<PermissionGroup.ResPermissio
 	};
 	drawerRef.value.acceptParams(params);
 };
-// let v1: UserGroup.ResAllocateList[] = [];
-// getAllPermissionGroupList()
-// 	.then(value => {
-// 		console.log(value.data);
-// 		v1 = value.data;
-// 	})
-// 	.catch(err => {
-// 		console.error(err);
-// 	});
-// const PermissionGroupResourceListDrawerRef = ref();
-
-// const openAllocateDrawer = (title: string, userId: string) => {
-// 	// let v3: UserGroup.ResUserGroupPermissionGroupsList[] = [];
-// 	if (title === "分配权限组权限组") {
-// 		getPermissionGroupPermissionGroupList({ userId: userId })
-// 			.then(value => {
-// 				let params = {
-// 					title,
-// 					userId,
-// 					modelData: value.data,
-// 					rowData: v1,
-// 					apiUrl: alocatPermissionGroupPermissionGroup,
-// 					getTableList: proTable.value.getTableList
-// 				};
-// 				PermissionGroupResourceListDrawerRef.value.acceptParams(params);
-// 			})
-// 			.catch(err => {
-// 				console.error(err);
-// 			});
-// 	}
-// };
+const allocatePermissionDrawerRef = ref();
+//分配权限页面打开
+const openAllocateDrawer = (title: string, groupId: number) => {
+	// let v3: UserGroup.ResUserGroupRolesList[] = [];
+	if (title === "分配权限") {
+		getPermsbyGroupId({ groupId: groupId })
+			.then(value => {
+				console.log(value);
+				let params = {
+					title,
+					groupId: groupId,
+					modelData: value.data,
+					isView: false,
+					apiUrl: updatePermsGroupPerms,
+					getTableList: proTable.value.getTableList
+				};
+				allocatePermissionDrawerRef.value.acceptParams(params);
+			})
+			.catch(err => {
+				console.error(err);
+			});
+	}
+};
 </script>
