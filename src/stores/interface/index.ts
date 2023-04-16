@@ -18,6 +18,8 @@ export interface ThemeConfigProps {
 export interface GlobalState {
 	token: string;
 	userInfo: any;
+	accountId: number;
+
 	assemblySize: string;
 	language: string;
 	themeConfig: ThemeConfigProps;

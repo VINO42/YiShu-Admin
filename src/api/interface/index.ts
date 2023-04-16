@@ -31,6 +31,7 @@ export namespace Login {
 	}
 	export interface ResLogin {
 		token: string;
+		id: number;
 	}
 	export interface ResAuthButtons {
 		[key: string]: {
@@ -82,6 +83,11 @@ export namespace User {
 		id: string;
 		name: string;
 		children?: ResDepartment[];
+	}
+	export interface UpdatePasswordModel {
+		accountId: number;
+		oldPassword: string;
+		newPassword?: string;
 	}
 }
 

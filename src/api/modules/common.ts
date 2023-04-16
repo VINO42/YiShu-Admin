@@ -26,3 +26,8 @@ export const getUserGender = () => {
 export const getUserDepartment = () => {
 	return http.get<User.ResDepartment>(PORT1 + `/user/department`);
 };
+
+// * 获取用户部门列表
+export const updatePassword = (params: User.UpdatePasswordModel) => {
+	return http.post(PORT1 + `/sysAccount/update/password`, params);
+};

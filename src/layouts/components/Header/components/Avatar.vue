@@ -49,6 +49,9 @@ const logout = () => {
 		.then(() => {
 			router.replace(LOGIN_URL);
 			globalStore.setToken("");
+			globalStore.setAccountId(0);
+			globalStore.setUserInfo(undefined);
+
 			ElMessage({
 				type: "success",
 				message: "退出登录成功！"
