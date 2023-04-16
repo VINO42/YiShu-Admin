@@ -59,7 +59,7 @@ const handleSubmit = () => {
 			let data = globalStore.accountId;
 			let params: any = {
 				oldPassword: md5(drawerData.value?.oldPasswd),
-				newPassword: md5(drawerData.value?.newPasswd),
+				newPassword: drawerData.value?.newPasswd,
 				accountId: data
 			};
 
