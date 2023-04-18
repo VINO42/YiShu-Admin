@@ -1,4 +1,4 @@
-# 基于Geeker-Admin进行二次开发的北邮毕业设计小程序后台管理系统
+# 基于Geeker-Admin进行二次开发的北邮毕业设计小程序后台管理系统(分支feat/btu)
 # Vue 3.2 + TypeScript + Pinia + Vite3 + Element-Plus 管理系统（开源啦 🎉🎉）
 
 ![banner](https://iamge-1259297738.cos.ap-chengdu.myqcloud.com/md/banner.png)
